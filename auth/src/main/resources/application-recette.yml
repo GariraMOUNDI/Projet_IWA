@@ -1,6 +1,9 @@
 server:
   port: 8888
 
+app:
+  version: 26
+
 spring :
   datasource:
     url: ${db_url}
