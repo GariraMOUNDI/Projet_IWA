@@ -1,0 +1,67 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'org.projet_iwa'
+
+allprojects {
+    apply plugin: 'application'
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    version = '2.3.4.RELEASE'
+
+    def postgres_version = '42.2.18'
+    def hibernate_version = '5.4.20.Final'
+
+    dependencies{
+        compile "org.springframework.boot:spring-boot-starter:" + version
+        compile "org.springframework.boot:spring-boot-starter-web:" + version
+        compile "org.springframework.boot:spring-boot-starter-data-jpa:" + version
+        compile "org.springframework.boot:spring-boot-starter-security:" + version
+        compile "org.hibernate:hibernate-core:" + hibernate_version
+        runtimeOnly "org.postgresql:postgresql:" + postgres_version
+        testImplementation('org.springframework.boot:spring-boot-starter-test:' + version) {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+project(":auth") {
+    apply plugin: 'org.springframework.boot'
+
+    def keycloak_version = '11.0.2'
+    dependencies {
+        compile "org.keycloak:keycloak-spring-boot-starter:" + keycloak_version
+//        compile "org.keycloak.bom:keycloak-adapter-bom:${keycloak_version}"
+//        compile project(":boot-logger")
+//        compile project(":boot-exceptions")
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloak_version}"
+        }
+    }
+}
+
+project(":alert") {
+    apply plugin: 'org.springframework.boot'
+
+    
+}
+
+project(":location") {
+    apply plugin: 'org.springframework.boot'
+
+
+}

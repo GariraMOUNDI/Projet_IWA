@@ -1,0 +1,25 @@
+server:
+  port: 8888
+
+spring :
+  datasource:
+    url: ${db_url}
+    username: ${db_username}
+    password:  ${db_password}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: projet_iwa
+  resource: app
+  public-client: true
+  ssl-required: external
+  confidential-port: 0
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true
