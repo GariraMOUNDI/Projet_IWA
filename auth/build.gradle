@@ -13,9 +13,6 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
-targetCompatibility = 15
-sourceCompatibility = 15
-
 def keycloak_version = '11.0.2'
 
 dependencies{
