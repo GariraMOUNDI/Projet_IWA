@@ -13,12 +13,12 @@ import java.util.Map;
 public class HomeController {
 
     @Value("${app.version}")
-    private String appVerison;
+    private String appVersion;
 
     @GetMapping
     public Map<String, String> getAppVersion(){
         Map<String, String> app = new HashMap<>();
-        app.put("appVersion", appVerison);
+        app.put("appVersion", appVersion);
         return app;
     }
 }
