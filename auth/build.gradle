@@ -38,5 +38,16 @@ test {
     useJUnitPlatform()
 }
 
-task stage(dependsOn: ['build', 'clean'])
+dependencyManagement {
+    imports {
+        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloak_version}"
+    }
+}
+
+task runJar(type:Exec){
+    commandLine 'java', '-jar', '../auth/build/libs/auth.jar'
+}
+
+task stage(dependsOn: ['build', 'clean', 'runJar'])
 build.mustRunAfter clean
+runJar.mustRunAfter build
