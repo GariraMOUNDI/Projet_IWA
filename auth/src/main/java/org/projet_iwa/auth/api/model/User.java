@@ -1,18 +1,37 @@
 package org.projet_iwa.auth.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "users")
+@Access(AccessType.FIELD)
 public class User {
-    private String user_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long user_id;
 
-    public void setUser_id(String user_id) {
+    @ManyToMany
+    @JoinTable(name="user_locations",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="location_id"))
+    private List<Location> locations;
+
+
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
     @Id
-    public String getUser_id() {
+    public Long getUser_id() {
         return user_id;
+    }
+
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 }

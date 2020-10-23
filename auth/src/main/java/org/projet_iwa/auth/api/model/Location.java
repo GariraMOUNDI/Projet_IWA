@@ -1,18 +1,36 @@
 package org.projet_iwa.auth.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "locations")
+@Access(AccessType.FIELD)
 public class Location {
-    private String location_id;
 
-    public void setLocation_id(String location_id) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long location_id;
+
+    @ManyToMany(mappedBy = "locations")
+    @JsonIgnore
+    private List<User> users;
+
+    public void setLocation_id(Long location_id) {
         this.location_id = location_id;
     }
 
     @Id
-    public String getLocation_id() {
+    public Long getLocation_id() {
         return location_id;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
