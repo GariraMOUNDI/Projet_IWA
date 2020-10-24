@@ -1,5 +1,5 @@
-#server:
-#  port: 8888
+server:
+  port: ${PORT}
 
 app:
   version: 26
