@@ -5,6 +5,7 @@ app:
   version: 26
 
 spring :
+  profiles: prod
   datasource:
     url: ${db_url}
     username: ${db_username}
@@ -26,3 +27,6 @@ keycloak:
   principal-attribute: preferred_username
   use-resource-role-mappings: true
   bearer-only: true
+logging:
+  level:
+    org: warn

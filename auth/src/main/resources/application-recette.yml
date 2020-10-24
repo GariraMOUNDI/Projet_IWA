@@ -1,10 +1,11 @@
 server:
-  port: 8888
+  port: 9000
 
 app:
   version: 26
 
-spring :
+spring:
+  profiles: recette
   datasource:
     url: ${db_url}
     username: ${db_username}
