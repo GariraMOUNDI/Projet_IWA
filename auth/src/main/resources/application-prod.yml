@@ -1,10 +1,6 @@
 server:
   port: ${PORT}
 
-java:
-  runtime:
-    version: 15
-
 app:
   version: 26
 
