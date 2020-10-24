@@ -1,6 +1,8 @@
 server:
-  port: 9000
+  port: ${PORT}
 
+app:
+  version: 26
 
 spring :
   datasource:
@@ -24,7 +26,3 @@ keycloak:
   principal-attribute: preferred_username
   use-resource-role-mappings: true
   bearer-only: true
-
-logging:
-  level:
-    org: warn

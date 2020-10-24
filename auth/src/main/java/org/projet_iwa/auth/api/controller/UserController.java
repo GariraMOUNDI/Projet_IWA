@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public User getOne(@PathVariable Long id){
-        if(userRepository.findById(id).isPresent()) {
+        if(userRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID "+id+" not found");
         }
         return userRepository.getOne(id);
