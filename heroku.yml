@@ -1,0 +1,9 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+  config:
+    db_url: ${DATABASE_URL}
+
+run:
+  web: java -jar auth/build/libs/auth.jar
