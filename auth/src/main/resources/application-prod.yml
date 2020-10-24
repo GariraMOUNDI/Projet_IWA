@@ -1,6 +1,10 @@
 server:
   port: ${PORT}
 
+java:
+  runtime:
+    version: 15
+
 app:
   version: 26
 
@@ -16,6 +20,10 @@ spring :
     hibernate:
       ddl-auto: none
       show-sql: true
+  jta:
+    atomikos:
+      datasource:
+        concurrent-connection-validation:
 
 keycloak:
   auth-server-url: http://localhost:8080/auth
