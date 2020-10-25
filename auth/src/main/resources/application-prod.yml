@@ -22,9 +22,9 @@ spring :
         concurrent-connection-validation:
 
 keycloak:
-  auth-server-url: http://localhost:8080/auth
-  realm: projet_iwa
-  resource: app
+  auth-server-url: https://covid-alert-g4-keycloak.herokuapp.com/auth
+  realm: covid_alert
+  resource: covid_alert_auth
   public-client: true
   ssl-required: external
   confidential-port: 0
