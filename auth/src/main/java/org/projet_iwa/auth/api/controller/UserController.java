@@ -19,7 +19,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-//    @RolesAllowed({"user"})
+    @RolesAllowed({"user"})
     public List<User> list() {
         return userRepository.findAll();
     }
