@@ -8,7 +8,7 @@ import javax.mail.internet.*;
 
 public class MailSender {
 
-    public static void sendEmail(User user) throws AddressException, MessagingException, IOException {
+    public static void sendEmail(String user) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -24,7 +24,7 @@ public class MailSender {
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress("polytech.alert.covid@gmail.com", false));
 
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user));
         msg.setSubject("Alerte Covid !");
         msg.setSentDate(new Date());
 

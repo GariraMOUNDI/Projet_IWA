@@ -15,13 +15,13 @@ import java.util.List;
 @Component
 public class Consumer {
 
-    // de kafka on va recevoir l'ID du USER, ensuite on va envoyer le mail
-    @KafkaListener(topics = "Topic")
-    public void processMessage(User user,
+
+    @KafkaListener(topics = "jip6qp3z-default")
+    public void processMessage(String message,
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
 
-        MailSender.sendEmail(user);
+        MailSender.sendEmail(message);
     }
 }

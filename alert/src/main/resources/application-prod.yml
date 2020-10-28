@@ -1,8 +1,8 @@
 spring:
   kafka:
-    bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094, tricycle-02.srvs.cloudkafka.com:9094, tricycle-03.srvs.cloudkafka.com:9094
+    bootstrap-servers: ${CLOUDKARAFKA_BROKERS}
     consumer:
-      group-id: jip6qp3z-consumers
+      group-id: ${CLOUDKARAFKA_USERNAME}-consumers
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -13,7 +13,7 @@ spring:
       security:
         protocol: SASL_SSL
       sasl:
-        mechanism: SCRAM-SHA-256
-        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="jip6qp3z" password="0Va4zYmZNNSD2HTNQy_qL7ajT2_D4MNe";
+          mechanism: SCRAM-SHA-256
+          jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
     template:
-      default-topic: jip6qp3z
+      default-topic: ${CLOUDKARAFKA_USERNAME}
