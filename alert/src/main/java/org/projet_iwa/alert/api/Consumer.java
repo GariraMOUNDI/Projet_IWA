@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class Consumer {
 
-    @KafkaListener(topics = "Topic")
+    @KafkaListener(topics = "jip6qp3z-default")
     public void processMessage(String message,
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
