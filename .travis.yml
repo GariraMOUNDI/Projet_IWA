@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - openjdk11
+  - openjdk15
 services:
   - docker
 git:
@@ -10,5 +10,7 @@ branches:
   only:
     - alert
     - auth
+    - location
+    - master
 
-script: ./mvnw clean install
+script: ./gradlew clean install
