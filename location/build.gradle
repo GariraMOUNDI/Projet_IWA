@@ -6,42 +6,34 @@ plugins {
 
 group = 'org.projet_iwa'
 
-allprojects {
-    apply plugin: 'application'
-    apply plugin: 'java'
-
-    repositories {
-        mavenCentral()
-    }
-
-    version = '2.3.4.RELEASE'
-    dependencies{
-        compile "org.springframework.boot:spring-boot-starter:" + version
-        compile "org.springframework.boot:spring-boot-starter-data-jpa:" + version
-    }
-
-    test {
-        useJUnitPlatform()
-    }
+repositories {
+    mavenCentral()
 }
 
-project(":auth") {
-    apply plugin: 'org.springframework.boot'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
-    dependencies {
-//        compile project(":boot-logger")
-//        compile project(":boot-exceptions")
+def keycloak_version = '11.0.2'
+
+dependencies{
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.hibernate:hibernate-core"
+    runtimeOnly "org.postgresql:postgresql"
+
+    implementation "org.keycloak:keycloak-spring-boot-starter:" + keycloak_version
+    implementation "org.keycloak:keycloak-spring-security-adapter:" + keycloak_version
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test" ) {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 }
 
-project(":alert") {
-    apply plugin: 'org.springframework.boot'
-
-    
+test {
+    useJUnitPlatform()
 }
 
-project(":location") {
-    apply plugin: 'org.springframework.boot'
-
-
-}
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
