@@ -1,14 +1,17 @@
 language: java
 jdk:
   - openjdk11
+sudo: required
+before_install:
+  - chmod +x gradlew
 services:
   - docker
 git:
   depth: false
 # safelist
+
 branches:
   only:
-    - alert
-    - auth
+    - location
 
-script: ./mvnw clean install
+#testing
