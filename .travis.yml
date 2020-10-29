@@ -16,7 +16,7 @@ branches:
     - location
     - master
 
-script: ./gradlew clean install
+#script: ./gradlew clean install
 notification:
   email:
     - stuparu.an@gmail.com
