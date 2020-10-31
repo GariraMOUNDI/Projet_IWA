@@ -32,12 +32,12 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody final UserDTO user){
+    public User createUser(@RequestBody final UserDTO user){
         return iUserService.createUser(user);
     }
 
     @GetMapping("{id}")
-    public User getOne(@PathVariable Long id){
+    public User getOneUser(@PathVariable Long id){
         if(!userRepository.findById(id).isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID "+id+" not found");
         }
@@ -45,12 +45,12 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id){
         userRepository.deleteById(id);
     }
 
     @PutMapping("{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
         // TODO: Ajouter ici une validation si tous
         // les champs ont ete passes
         // Sinon, retourner une erreur 400 (Bad Payload)

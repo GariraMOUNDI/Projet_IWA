@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -20,4 +20,5 @@ public class UserService implements IUserService{
     public User createUser(UserDTO user) {
         return userRepository.saveAndFlush(userFactory.createUserModel(user));
     }
+
 }
