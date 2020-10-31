@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-//import javax.mail.MessagingException;
 import java.io.IOException;
 
 
