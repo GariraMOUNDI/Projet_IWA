@@ -1,9 +1,12 @@
 package org.projet_iwa.auth.api.controller;
 
 import org.projet_iwa.auth.api.model.User;
+import org.projet_iwa.auth.api.model.UserDTO;
 import org.projet_iwa.auth.api.repository.UserRepository;
+import org.projet_iwa.auth.api.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +21,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IUserService iUserService;
+
     @GetMapping
     @RolesAllowed({"user"})
     public List<User> list() {
@@ -26,8 +32,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody final User user){
-        return userRepository.saveAndFlush(user);
+    public User create(@RequestBody final UserDTO user){
+        return iUserService.createUser(user);
     }
 
     @GetMapping("{id}")

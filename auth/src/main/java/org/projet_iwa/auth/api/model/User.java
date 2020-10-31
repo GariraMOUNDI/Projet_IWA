@@ -13,11 +13,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
+    private String first_name, last_name, password, email, phone_number;
+
     @ManyToMany
     @JoinTable(name="user_locations",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="location_id"))
     private List<Location> locations;
+
+    public User(Long user_id, String first_name, String last_name, String password, String email, String phone_number,List<Location> locations){
+        this.user_id = user_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.phone_number = phone_number;
+        this.locations = locations;
+    }
+
+    public User() {}
 
 
     public void setUser_id(Long user_id) {
@@ -28,7 +42,6 @@ public class User {
     public Long getUser_id() {
         return user_id;
     }
-
 
     public List<Location> getLocations() {
         return locations;
