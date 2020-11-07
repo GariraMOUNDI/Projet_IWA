@@ -1,9 +1,6 @@
 server:
   port: 8888
 
-app:
-  version: 26
-
 spring :
   datasource:
     url: ${db_url}
@@ -25,3 +22,9 @@ keycloak:
   principal-attribute: preferred_username
   use-resource-role-mappings: true
   bearer-only: true
+
+covid-alert :
+  keycloak :
+    admin-username: projet_iwa_g4
+    admin-password: projet_iwa_g4
+    user-role: user

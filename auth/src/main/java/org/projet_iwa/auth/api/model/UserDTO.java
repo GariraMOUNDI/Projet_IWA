@@ -1,9 +1,10 @@
 package org.projet_iwa.auth.api.model;
+
 import java.util.List;
 
 public class UserDTO {
     private Long user_id;
-    private String first_name, last_name, password, email, phone_number;
+    private String username, first_name, last_name, password, email, phone_number;
     private List<Location> locations;
 
     public UserDTO(Long user_id, String first_name, String last_name, String password, String email, String phone_number,List<Location> locations){
@@ -30,6 +31,14 @@ public class UserDTO {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirst_name() {
@@ -71,4 +80,5 @@ public class UserDTO {
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
+
 }
