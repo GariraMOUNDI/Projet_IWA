@@ -1,9 +1,7 @@
 package org.projet_iwa.auth.api.service;
 
 import org.projet_iwa.auth.api.config.KeycloakService;
-import org.projet_iwa.auth.api.model.User;
-import org.projet_iwa.auth.api.model.UserDTO;
-import org.projet_iwa.auth.api.model.UserFactory;
+import org.projet_iwa.auth.api.model.*;
 import org.projet_iwa.auth.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,18 @@ public class UserService implements IUserService {
     private KeycloakService keycloakService;
 
     @Override
-    public User createUser(UserDTO user) {
-        keycloakService.createKeycloakUser(user);
-        return userRepository.saveAndFlush(userFactory.createUserModel(user));
+    public UserResponse createUser(UserDTO userDTO) {
+        if(userDTO.checkFields() == UserResponseType.VALID_USER){
+            if(userRepository.existsByUsername(userDTO.getUsername())){
+                return new UserResponse(UserResponseType.USER_EXIST, userDTO);
+            }else{
+                keycloakService.createKeycloakUser(userDTO);
+                User new_user = userRepository.saveAndFlush(userFactory.createUserModel(userDTO));
+                return new UserResponse(UserResponseType.USER_CREATED, userFactory.createUserDTO(new_user));
+            }
+        }
+        else
+            return new UserResponse(userDTO.checkFields(), null);
     }
 
 }

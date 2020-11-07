@@ -9,6 +9,17 @@ import java.util.List;
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
+    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, List<Location> locations) {
+        this.user_id = user_id;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.locations = locations;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
@@ -21,18 +32,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name="location_id"))
     private List<Location> locations;
 
-    public User(Long user_id, String first_name, String last_name, String password, String email, String phone_number, List<Location> locations){
-        this.user_id = user_id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.phone_number = phone_number;
-        this.locations = locations;
-    }
-
     public User() {}
-
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;

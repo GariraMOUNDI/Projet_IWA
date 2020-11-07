@@ -2,16 +2,17 @@ package org.projet_iwa.auth.api.controller;
 
 import org.projet_iwa.auth.api.model.User;
 import org.projet_iwa.auth.api.model.UserDTO;
+import org.projet_iwa.auth.api.model.UserResponse;
 import org.projet_iwa.auth.api.repository.UserRepository;
 import org.projet_iwa.auth.api.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,12 +33,12 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody final UserDTO user){
-        return iUserService.createUser(user);
+    public UserResponse createUser(@RequestBody final UserDTO userDTO){
+        return iUserService.createUser(userDTO);
     }
 
     @GetMapping("{id}")
-    public User getOneUser(@PathVariable Long id){
+    public User loginUser(@PathVariable Long id){
         if(!userRepository.findById(id).isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID "+id+" not found");
         }
