@@ -25,24 +25,22 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @GetMapping
-    @RolesAllowed({"user"})
-    public List<User> list() {
-        return userRepository.findAll();
-    }
-
-    @PostMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@RequestBody final UserDTO userDTO){
         return iUserService.createUser(userDTO);
     }
 
-    @GetMapping("{id}")
-    public User loginUser(@PathVariable Long id){
-        if(!userRepository.findById(id).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID "+id+" not found");
-        }
-        return userRepository.getOne(id);
+    @PostMapping("/login")
+    public UserResponse loginUser(@RequestParam String username, @RequestParam String password){
+        return iUserService.loginUser(username, password);
+    }
+
+
+    @GetMapping
+    @RolesAllowed({"user"})
+    public List<User> list() {
+        return userRepository.findAll();
     }
 
     @DeleteMapping("{id}")

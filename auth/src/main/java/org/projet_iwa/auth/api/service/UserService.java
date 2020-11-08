@@ -34,4 +34,21 @@ public class UserService implements IUserService {
             return new UserResponse(userDTO.checkFields(), null);
     }
 
+    @Override
+    public UserResponse loginUser(String username, String password) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if(user == null)
+            return new UserResponse(UserResponseType.USER_NOT_EXIST, null);
+        else{
+            String hash_password = user.getEncryptedPassword(username + password);
+            if(!hash_password.equals(user.getPassword()))
+                return new UserResponse(UserResponseType.INCORRECT_PASSWORD, null);
+            else{
+                UserDTO logged_user = userFactory.createUserDTO(user);
+                logged_user.setToken(keycloakService.getToken(user.getUsername(), user.getPassword()));
+                return new UserResponse(UserResponseType.USER_LOGGED_IN, logged_user);
+            }
+        }
+    }
+
 }

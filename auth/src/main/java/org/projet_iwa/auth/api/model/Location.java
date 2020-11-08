@@ -15,9 +15,9 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long location_id;
 
-    @ManyToMany(mappedBy = "locations")
-    @JsonIgnore
-    private List<User> users;
+//    @ManyToMany(mappedBy = "locations")
+//    @JsonIgnore
+//    private List<User> users;
 
     public void setLocation_id(Long location_id) {
         this.location_id = location_id;
@@ -28,11 +28,11 @@ public class Location {
         return location_id;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 }

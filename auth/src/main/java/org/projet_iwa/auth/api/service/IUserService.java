@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface IUserService {
     UserResponse createUser(UserDTO userDTO);
+    UserResponse loginUser(String username, String password);
 }

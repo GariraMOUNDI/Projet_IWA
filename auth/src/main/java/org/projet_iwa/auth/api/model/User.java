@@ -16,13 +16,7 @@ public class User {
 
     private String username, first_name, last_name, password, email, phone_number;
 
-    @ManyToMany
-    @JoinTable(name="user_locations",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="location_id"))
-    private List<Location> locations;
-
-    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, List<Location> locations) {
+    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number) {
         this.user_id = user_id;
         this.username = username;
         this.first_name = first_name;
@@ -30,7 +24,6 @@ public class User {
         this.password = getEncryptedPassword(username + password);
         this.email = email;
         this.phone_number = phone_number;
-        this.locations = locations;
     }
 
     public User() {}
@@ -42,14 +35,6 @@ public class User {
     @Id
     public Long getUser_id() {
         return user_id;
-    }
-
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
     }
 
     public String getUsername() {

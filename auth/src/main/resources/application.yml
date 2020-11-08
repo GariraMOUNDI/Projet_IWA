@@ -16,12 +16,15 @@ keycloak:
   auth-server-url: https://covid-alert-g4-keycloak.herokuapp.com/auth
   realm: covid_alert
   resource: covid_alert_auth
+  credentials:
+    secret: 7593ae8a-49f2-4e8f-9083-de95129f44a9
   public-client: true
   ssl-required: external
   confidential-port: 0
   principal-attribute: preferred_username
   use-resource-role-mappings: true
   bearer-only: true
+
 
 covid-alert :
   keycloak :

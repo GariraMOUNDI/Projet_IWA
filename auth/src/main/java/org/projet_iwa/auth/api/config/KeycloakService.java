@@ -1,6 +1,7 @@
 package org.projet_iwa.auth.api.config;
 
 import org.keycloak.admin.client.CreatedResponseUtil;
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.projet_iwa.auth.api.model.User;
@@ -48,5 +49,9 @@ public class KeycloakService {
 //                .roles()
 //                .clientLevel(keycloakInit.getKeycloak_resource())
 //                .add(Collections.singletonList(user_role));
+    }
+
+    public AccessTokenResponse getToken(String username, String password) {
+        return keycloakInit.getUserToken(username, password);
     }
 }
