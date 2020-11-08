@@ -4,9 +4,11 @@ import org.projet_iwa.auth.api.config.KeycloakService;
 import org.projet_iwa.auth.api.model.*;
 import org.projet_iwa.auth.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("UserService")
 public class UserService implements IUserService {
 
     @Autowired

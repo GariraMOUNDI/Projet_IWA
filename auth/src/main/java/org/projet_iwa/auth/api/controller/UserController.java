@@ -7,12 +7,11 @@ import org.projet_iwa.auth.api.repository.UserRepository;
 import org.projet_iwa.auth.api.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,9 +19,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
+    @Qualifier("UserService")
     private IUserService iUserService;
 
     @PostMapping("/create")
@@ -36,26 +33,30 @@ public class UserController {
         return iUserService.loginUser(username, password);
     }
 
-
     @GetMapping
-    @RolesAllowed({"user"})
-    public List<User> list() {
-        return userRepository.findAll();
+    public String test(){
+        return "Ca marche";
     }
 
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Long id){
-        userRepository.deleteById(id);
-    }
+//    @GetMapping
+//    @RolesAllowed({"user"})
+//    public List<User> list() {
+//        return userRepository.findAll();
+//    }
 
-    @PutMapping("{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        // TODO: Ajouter ici une validation si tous
-        // les champs ont ete passes
-        // Sinon, retourner une erreur 400 (Bad Payload)
-        User existingUser = userRepository.getOne(id);
-        BeanUtils.copyProperties(user,existingUser,"user_id");
-        return userRepository.saveAndFlush(existingUser);
-    }
+//    @DeleteMapping("{id}")
+//    public void deleteUser(@PathVariable Long id){
+//        userRepository.deleteById(id);
+//    }
+
+//    @PutMapping("{id}")
+//    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+//        // TODO: Ajouter ici une validation si tous
+//        // les champs ont ete passes
+//        // Sinon, retourner une erreur 400 (Bad Payload)
+//        User existingUser = userRepository.getOne(id);
+//        BeanUtils.copyProperties(user,existingUser,"user_id");
+//        return userRepository.saveAndFlush(existingUser);
+//    }
 
 }

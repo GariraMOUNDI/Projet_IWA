@@ -108,7 +108,7 @@ public class UserDTO {
             return UserResponseType.BAD_EMAIL;
         }else{
             String [] l_e = email.split("\\.");
-            if(l_e.length <= 2 || l_e[l_e.length - 1].contains("@"))
+            if(l_e.length < 2 || l_e[l_e.length - 1].contains("@"))
                 return UserResponseType.BAD_EMAIL;
         }
         try{
