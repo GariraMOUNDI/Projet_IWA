@@ -1,6 +1,7 @@
 package org.projet_iwa.auth.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,17 +10,6 @@ import java.util.List;
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
-    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, List<Location> locations) {
-        this.user_id = user_id;
-        this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.password = password;
-        this.email = email;
-        this.phone_number = phone_number;
-        this.locations = locations;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
@@ -31,6 +21,17 @@ public class User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="location_id"))
     private List<Location> locations;
+
+    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, List<Location> locations) {
+        this.user_id = user_id;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = getEncryptedPassword(username + password);
+        this.email = email;
+        this.phone_number = phone_number;
+        this.locations = locations;
+    }
 
     public User() {}
 
@@ -97,5 +98,9 @@ public class User {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public String getEncryptedPassword(String password) {
+        return new DigestUtils("SHA3-256").digestAsHex(password);
     }
 }

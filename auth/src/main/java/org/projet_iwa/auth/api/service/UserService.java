@@ -24,9 +24,10 @@ public class UserService implements IUserService {
             if(userRepository.existsByUsername(userDTO.getUsername())){
                 return new UserResponse(UserResponseType.USER_EXIST, userDTO);
             }else{
-                keycloakService.createKeycloakUser(userDTO);
-                User new_user = userRepository.saveAndFlush(userFactory.createUserModel(userDTO));
-                return new UserResponse(UserResponseType.USER_CREATED, userFactory.createUserDTO(new_user));
+                User user_model = userFactory.createUserModel(userDTO);
+                keycloakService.createKeycloakUser(user_model);
+                user_model = userRepository.saveAndFlush(user_model);
+                return new UserResponse(UserResponseType.USER_CREATED, userFactory.createUserDTO(user_model));
             }
         }
         else

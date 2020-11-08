@@ -1,23 +1,14 @@
 package org.projet_iwa.auth.api.config;
 
 import org.keycloak.admin.client.CreatedResponseUtil;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.RoleResource;
-import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.RoleRepresentation;
-import org.keycloak.representations.idm.RolesRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.projet_iwa.auth.api.model.UserDTO;
+import org.projet_iwa.auth.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -26,7 +17,7 @@ public class KeycloakService {
     @Autowired
     private KeycloakInit keycloakInit;
 
-    public void createKeycloakUser(UserDTO user){
+    public void createKeycloakUser(User user){
         UserRepresentation keycloak_user = new UserRepresentation();
         keycloak_user.setUsername(user.getUsername());
         keycloak_user.setFirstName(user.getFirst_name());
