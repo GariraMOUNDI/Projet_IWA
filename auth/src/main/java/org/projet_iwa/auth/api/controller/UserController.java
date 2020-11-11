@@ -33,10 +33,10 @@ public class UserController {
         return iUserService.loginUser(user.getUsername(), user.getPassword());
     }
 
-//    @GetMapping("/confirm")
-//    public UserResponse confirmUser(@RequestParam String token){
-//
-//    }
+    @GetMapping("/confirmUser")
+    public UserResponse confirmUser(@RequestParam String token){
+        return iUserService.confirmUser(token);
+    }
 
 //    @GetMapping
 //    @RolesAllowed({"user"})

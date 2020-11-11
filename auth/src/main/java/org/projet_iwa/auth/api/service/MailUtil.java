@@ -25,14 +25,7 @@ public class MailUtil implements IMailSender{
     private VerificationTokenRepository verificationTokenRepository;
 
     @Override
-    public void sendEmail(User user) {
-
-        String token = UUID.randomUUID().toString();
-        VerificationToken verifToken = new VerificationToken();
-        verifToken.setToken(token);
-        verifToken.setUser_id(user.getUser_id());
-        verifToken.setExpirydate(VerificationToken.EXPIRATION);
-        verificationTokenRepository.saveAndFlush(verifToken);
+    public void sendEmail(User user, String token) {
 
         String recipientAddesss = user.getEmail();
         String url;
@@ -40,7 +33,7 @@ public class MailUtil implements IMailSender{
         String subject;
 //        if(!event.isReset()){
             subject = "User Account Confirmation";
-            url = serverUrl+"confirmUser?token="+token;
+            url = serverUrl+"users/confirmUser?token="+token;
             message = "Please confirm your account to login the App :"+"\r\n"+url;
 //        }else{
 //            subject = "Reset your password";

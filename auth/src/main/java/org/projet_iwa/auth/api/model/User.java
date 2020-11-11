@@ -93,8 +93,8 @@ public class User {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void toggleEnabled() {
+        this.enabled = !enabled;
     }
 
     public String getEncryptedPassword(String password) {

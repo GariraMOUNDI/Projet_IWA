@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface IMailSender {
-    void sendEmail(User user);
+    void sendEmail(User user, String token);
 }

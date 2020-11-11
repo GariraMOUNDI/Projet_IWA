@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
 public interface IUserService {
     UserResponse createUser(UserDTO userDTO);
     UserResponse loginUser(String username, String password);
+    UserResponse confirmUser(String token);
 }
