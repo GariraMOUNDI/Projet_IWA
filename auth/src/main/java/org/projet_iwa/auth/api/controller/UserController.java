@@ -29,14 +29,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserResponse loginUser(@RequestParam String username, @RequestParam String password){
-        return iUserService.loginUser(username, password);
+    public UserResponse loginUser(@RequestBody UserDTO user){
+        return iUserService.loginUser(user.getUsername(), user.getPassword());
     }
 
-    @GetMapping
-    public String test(){
-        return "Ca marche";
-    }
+//    @GetMapping("/confirm")
+//    public UserResponse confirmUser(@RequestParam String token){
+//
+//    }
 
 //    @GetMapping
 //    @RolesAllowed({"user"})

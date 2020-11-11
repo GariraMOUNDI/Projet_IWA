@@ -6,3 +6,4 @@ public class UserResponse extends Response<UserResponseType, UserDTO> {
         super(userResponseType, userDTO);
     }
 }
+

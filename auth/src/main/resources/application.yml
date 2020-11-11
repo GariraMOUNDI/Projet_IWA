@@ -1,5 +1,6 @@
 server:
   port: 8888
+  url : http://localhost:8888/
 
 spring :
   datasource:
@@ -11,6 +12,17 @@ spring :
     hibernate:
       ddl-auto: none
       show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${email}
+    password: ${password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 keycloak:
   auth-server-url: https://covid-alert-g4-keycloak.herokuapp.com/auth

@@ -12,5 +12,6 @@ public enum UserResponseType {
     BAD_EMAIL,
     BAD_PHONE_NUMBER,
     BAD_CONFIRMATION,
-    FIELD_LENGTH
+    FIELD_LENGTH,
+    EMAIL_NOT_CONFIRMED
 }

@@ -2,8 +2,6 @@ package org.projet_iwa.auth.api.model;
 
 import org.keycloak.representations.AccessTokenResponse;
 
-import java.util.List;
-
 public class UserDTO {
     private Long user_id;
     private String username;
@@ -13,9 +11,10 @@ public class UserDTO {
     private String confirm_pass;
     private String email;
     private String phone_number;
+    private boolean enabled;
     private AccessTokenResponse token;
 
-    public UserDTO(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number) {
+    public UserDTO(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, boolean enabled) {
         this.user_id = user_id;
         this.username = username;
         this.first_name = first_name;
@@ -23,6 +22,7 @@ public class UserDTO {
         this.password = password;
         this.email = email;
         this.phone_number = phone_number;
+        this.enabled = enabled;
     }
 
     public void setUser_id(Long user_id) {
@@ -120,6 +120,14 @@ public class UserDTO {
             return UserResponseType.BAD_CONFIRMATION;
 
         return UserResponseType.VALID_USER;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
 

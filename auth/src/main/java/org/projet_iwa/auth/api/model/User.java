@@ -16,7 +16,10 @@ public class User {
 
     private String username, first_name, last_name, password, email, phone_number;
 
-    public User(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number) {
+    private boolean enabled;
+
+    public User(Long user_id, String username, String first_name, String last_name,
+                String password, String email, String phone_number, boolean enabled) {
         this.user_id = user_id;
         this.username = username;
         this.first_name = first_name;
@@ -24,6 +27,7 @@ public class User {
         this.password = getEncryptedPassword(username + password);
         this.email = email;
         this.phone_number = phone_number;
+        this.enabled = enabled;
     }
 
     public User() {}
@@ -85,7 +89,17 @@ public class User {
         this.phone_number = phone_number;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public String getEncryptedPassword(String password) {
         return new DigestUtils("SHA3-256").digestAsHex(password);
     }
+
+
 }

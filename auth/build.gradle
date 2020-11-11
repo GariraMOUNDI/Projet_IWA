@@ -30,6 +30,8 @@ dependencies{
 
     implementation "commons-codec:commons-codec"
 
+    implementation "org.springframework.boot:spring-boot-starter-mail"
+
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.jayway.jsonpath:json-path"

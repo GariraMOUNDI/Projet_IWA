@@ -1,7 +1,6 @@
 package org.projet_iwa.auth.api;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.projet_iwa.auth.api.model.UserDTO;
@@ -25,6 +24,7 @@ public class UserServiceTest {
         UserDTO userDTO = getSampleDTO();
         UserResponse response = userService.createUser(userDTO);
         Assert.assertEquals(UserResponseType.USER_CREATED, response.getType());
+
         UserDTO new_user = response.getPayload();
         Assert.assertNotNull(new_user);
         Assert.assertEquals(userDTO.getUsername(), new_user.getUsername());
@@ -42,7 +42,8 @@ public class UserServiceTest {
                 "parti",
                 "parti",
                 "parti@parti.com",
-                "1548697"
+                "1548697",
+                false
         );
         dto.setConfirm_pass("parti");
         return dto;
