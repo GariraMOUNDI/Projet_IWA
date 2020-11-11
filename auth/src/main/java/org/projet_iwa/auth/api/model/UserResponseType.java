@@ -15,5 +15,7 @@ public enum UserResponseType {
     FIELD_LENGTH,
     EMAIL_NOT_CONFIRMED,
     TOKEN_EXPIRED,
-    USER_CONFIRMED
+    USER_CONFIRMED,
+    FORGOT_EMAIL,
+    EMAIL_EXIST
 }

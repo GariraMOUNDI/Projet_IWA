@@ -9,4 +9,5 @@ public interface IUserService {
     UserResponse createUser(UserDTO userDTO);
     UserResponse loginUser(String username, String password);
     UserResponse confirmUser(String token);
+    UserResponse forgotPassword(UserDTO userDTO);
 }

@@ -38,6 +38,10 @@ public class UserController {
         return iUserService.confirmUser(token);
     }
 
+    @PostMapping("/forgotUser")
+    public UserResponse forgotPassword(@RequestBody UserDTO userDTO){
+        return iUserService.forgotPassword(userDTO);
+    }
 //    @GetMapping
 //    @RolesAllowed({"user"})
 //    public List<User> list() {

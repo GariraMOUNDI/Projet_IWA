@@ -1,15 +1,18 @@
 package org.projet_iwa.auth.api.config;
 
+import org.apache.catalina.User;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.projet_iwa.auth.api.model.User;
+import org.projet_iwa.auth.api.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,24 +21,18 @@ public class KeycloakService {
     @Autowired
     private KeycloakInit keycloakInit;
 
-    public void createKeycloakUser(User user){
+    public void createKeycloakUser(UserDTO userDTO){
         UserRepresentation keycloak_user = new UserRepresentation();
-        keycloak_user.setUsername(user.getUsername());
-        keycloak_user.setFirstName(user.getFirst_name());
-        keycloak_user.setLastName(user.getLast_name());
-        keycloak_user.setEmail(user.getEmail());
+        keycloak_user.setUsername(userDTO.getUsername());
+        keycloak_user.setFirstName(userDTO.getFirst_name());
+        keycloak_user.setLastName(userDTO.getLast_name());
+        keycloak_user.setEmail(userDTO.getEmail());
         keycloak_user.setEnabled(true);
 
-        List<CredentialRepresentation> credentials = new ArrayList<>();
-        CredentialRepresentation cr = new CredentialRepresentation();
-        cr.setType(CredentialRepresentation.PASSWORD);
-        cr.setValue(user.getPassword());
-        cr.setTemporary(false);
-        credentials.add(cr);
-        keycloak_user.setCredentials(credentials);
+        keycloak_user.setCredentials(Collections.singletonList(getCredentials(userDTO.getPassword())));
 
         Response response = keycloakInit.getRealm().users().create(keycloak_user);
-        String created_id = CreatedResponseUtil.getCreatedId(response);
+//        String created_id = CreatedResponseUtil.getCreatedId(response);
 
         // Give a role to new users
 //        RoleRepresentation user_role =
@@ -53,5 +50,26 @@ public class KeycloakService {
 
     public AccessTokenResponse getToken(String username, String password) {
         return keycloakInit.getUserToken(username, password);
+    }
+
+    public void updateKeycloakUserCredentials(UserDTO userDTO){
+        UserRepresentation user = keycloakInit.getRealm().users()
+                .search(userDTO.getUsername())
+                .get(0);
+
+        keycloakInit.getRealm()
+                .users()
+                .get(user.getId())
+                .remove();
+
+        createKeycloakUser(userDTO);
+    }
+
+    private CredentialRepresentation  getCredentials(String password){
+        CredentialRepresentation cr = new CredentialRepresentation();
+        cr.setType(CredentialRepresentation.PASSWORD);
+        cr.setValue(password);
+        cr.setTemporary(false);
+        return cr;
     }
 }
