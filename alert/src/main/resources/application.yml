@@ -5,10 +5,12 @@ spring:
       group-id: jip6qp3z-consumers
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     properties:
       security:
         protocol: SASL_SSL
@@ -17,3 +19,24 @@ spring:
         jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="jip6qp3z" password="0Va4zYmZNNSD2HTNQy_qL7ajT2_D4MNe";
     template:
       default-topic: jip6qp3z
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: polytech.alert.covid@gmail.com
+    password: alertcovid2020
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/covid_alert_db
+    username: postgres
+    password: postgres
+    jpa:
+      database-platform: org.hibernate.dialect.
+      hibernate.ddl-auto: none
+      hibernate.show-sql: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG

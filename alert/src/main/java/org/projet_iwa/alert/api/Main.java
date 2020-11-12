@@ -2,6 +2,7 @@ package org.projet_iwa.alert.api;
 
 //import org.projet_iwa.alert.api.model.MailSender;
 //import org.projet_iwa.alert.api.model.User;
+import org.projet_iwa.alert.api.model.AlertDTO;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +24,9 @@ public class Main {
 
     @Bean
     public ApplicationRunner runner(Producer producer) {
-        System.out.println("test");
+        AlertDTO a = new AlertDTO(new Long(100),new Long(1001));
         return (args) -> {
-                producer.send("jip6qp3z-default", "remirezmcc@gmail.com");
+                producer.send("jip6qp3z-default", a);
         };
     }
 }

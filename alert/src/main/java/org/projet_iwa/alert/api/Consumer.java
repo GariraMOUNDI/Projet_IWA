@@ -1,11 +1,15 @@
 package org.projet_iwa.alert.api;
 
 //import org.projet_iwa.alert.api.model.Location;
-import org.projet_iwa.alert.api.model.MailSender;
+//import org.projet_iwa.alert.api.model.MailSender;
 //import org.projet_iwa.alert.api.model.User;
+import org.projet_iwa.alert.api.model.AlertDTO;
+import org.projet_iwa.alert.api.service.IHandleAlert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 //import javax.mail.MessagingException;
@@ -16,13 +20,16 @@ import java.util.List;
 @Component
 public class Consumer {
 
+    @Autowired
+    private IHandleAlert handleAlert;
+
 
     @KafkaListener(topics = "jip6qp3z-default")
-    public void processMessage(String message,
+    public void processMessage(@Payload AlertDTO alert,
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-        System.out.println(message);
-        MailSender.sendEmail(message);
+        System.out.println(alert.getLocation_id());
+//        handleAlert.sendAlert(message);
     }
 }
