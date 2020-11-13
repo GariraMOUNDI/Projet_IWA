@@ -1,5 +1,6 @@
 package org.projet_iwa.auth.api.controller;
 
+import org.projet_iwa.auth.api.model.Response;
 import org.projet_iwa.auth.api.model.User;
 import org.projet_iwa.auth.api.model.UserDTO;
 import org.projet_iwa.auth.api.model.UserResponse;
@@ -24,24 +25,26 @@ public class UserController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody final UserDTO userDTO){
+    public Response<?, ?> createUser(@RequestBody final UserDTO userDTO){
         return iUserService.createUser(userDTO);
     }
 
     @PostMapping("/login")
-    public UserResponse loginUser(@RequestBody UserDTO user){
+    public Response<?, ?> loginUser(@RequestBody UserDTO user){
         return iUserService.loginUser(user.getUsername(), user.getPassword());
     }
 
     @GetMapping("/confirmUser")
-    public UserResponse confirmUser(@RequestParam String token){
+    public Response<?, ?> confirmUser(@RequestParam String token){
         return iUserService.confirmUser(token);
     }
 
     @PostMapping("/forgotUser")
-    public UserResponse forgotPassword(@RequestBody UserDTO userDTO){
+    public Response<?, ?> forgotPassword(@RequestBody UserDTO userDTO){
         return iUserService.forgotPassword(userDTO);
     }
+
+
 //    @GetMapping
 //    @RolesAllowed({"user"})
 //    public List<User> list() {

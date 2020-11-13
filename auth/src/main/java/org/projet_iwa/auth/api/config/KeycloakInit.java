@@ -34,34 +34,6 @@ public class KeycloakInit {
     private RealmResource realmResource;
     private RolesResource roles;
 
-    public String getKeycloak_url() {
-        return keycloak_url;
-    }
-
-    public String getKeycloak_realm() {
-        return keycloak_realm;
-    }
-
-    public String getKeycloak_client_id() {
-        return keycloak_client_id;
-    }
-
-    public String getKeycloak_username() {
-        return keycloak_username;
-    }
-
-    public String getKeycloak_password() {
-        return keycloak_password;
-    }
-
-    public String getKeycloak_user_role() {
-        return keycloak_user_role;
-    }
-
-    public String getKeycloak_client_secret() {
-        return keycloak_client_secret;
-    }
-
     public RealmResource getRealm(){
         if(realmResource == null){
             Keycloak keycloak =

@@ -1,7 +1,5 @@
 package org.projet_iwa.auth.api.config;
 
-import org.apache.catalina.User;
-import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -10,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class KeycloakService {

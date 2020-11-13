@@ -1,13 +1,13 @@
 package org.projet_iwa.auth.api.service;
 
+import org.projet_iwa.auth.api.model.Response;
 import org.projet_iwa.auth.api.model.UserDTO;
-import org.projet_iwa.auth.api.model.UserResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface IUserService {
-    UserResponse createUser(UserDTO userDTO);
-    UserResponse loginUser(String username, String password);
-    UserResponse confirmUser(String token);
-    UserResponse forgotPassword(UserDTO userDTO);
+    Response<?, ?> createUser(UserDTO userDTO);
+    Response<?, ?>loginUser(String username, String password);
+    Response<?, ?> confirmUser(String token);
+    Response<?, ?> forgotPassword(UserDTO userDTO);
 }
