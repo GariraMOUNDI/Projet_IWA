@@ -20,7 +20,7 @@ dependencies{
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-security"
+//    implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.kafka:spring-kafka:" + kafka_version
     implementation "org.hibernate:hibernate-core"
     runtimeOnly "org.postgresql:postgresql"
@@ -33,7 +33,7 @@ dependencies{
 
     implementation "commons-codec:commons-codec"
 
-    testImplementation "org.springframework.security:spring-security-test"
+//    testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.jayway.jsonpath:json-path"
     testImplementation "org.junit.jupiter:junit-jupiter-api"

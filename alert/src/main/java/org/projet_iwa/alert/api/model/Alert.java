@@ -12,12 +12,13 @@ public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long alert_id;
-
     private Long location_id;
+    private String email;
 
-    public Alert(Long alert_id, Long location_id) {
+    public Alert(Long alert_id, Long location_id, String email) {
         this.alert_id = alert_id;
         this.location_id = location_id;
+        this.email = email;
     }
 
     public Alert() {}
@@ -36,5 +37,13 @@ public class Alert {
 
     public void setLocation_id(Long location_id) {
         this.location_id = location_id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

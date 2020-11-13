@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 spring:
   kafka:
     bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094, tricycle-02.srvs.cloudkafka.com:9094, tricycle-03.srvs.cloudkafka.com:9094
@@ -18,24 +21,20 @@ spring:
         mechanism: SCRAM-SHA-256
         jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="jip6qp3z" password="0Va4zYmZNNSD2HTNQy_qL7ajT2_D4MNe";
     template:
-      default-topic: jip6qp3z
+      default-topic: jip6qp3z-default
   mail:
     host: smtp.gmail.com
     port: 587
-    username: polytech.alert.covid@gmail.com
-    password: alertcovid2020
+    username: ${email}
+    password: ${password}
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/covid_alert_db
-    username: postgres
-    password: postgres
-    jpa:
-      database-platform: org.hibernate.dialect.
-      hibernate.ddl-auto: none
-      hibernate.show-sql: true
+    url: jdbc:postgresql://localhost:5432/projet_iwa
+    username: projet_iwa
+    password: projet_iwa
 
 logging:
   level:
