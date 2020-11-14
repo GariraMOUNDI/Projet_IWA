@@ -31,11 +31,6 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/projet_iwa
-    username: projet_iwa
-    password: projet_iwa
-
 logging:
   level:
     org.springframework.security: DEBUG
