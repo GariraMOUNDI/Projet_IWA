@@ -13,11 +13,4 @@ public class Main {
         System.out.println("Welcome to Location Microservice");
         SpringApplication.run(Main.class, args);
     }
-    @Bean
-    public ApplicationRunner runner(Producer producer) {
-        LocationDTO a = new LocationDTO(new String, new Long(1000), new Long (1000),new Long (1000));
-        return (args) -> {
-            producer.send("jip6qp3z-default", a);
-        };
-    }
 }

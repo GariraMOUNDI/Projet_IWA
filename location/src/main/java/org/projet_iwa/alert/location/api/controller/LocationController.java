@@ -2,6 +2,7 @@ package org.projet_iwa.alert.location.api.controller;
 
 
 import org.projet_iwa.alert.location.api.model.Location;
+import org.projet_iwa.alert.location.api.model.LocationDTO;
 import org.projet_iwa.alert.location.api.model.LocationResponse;
 import org.projet_iwa.alert.location.api.model.Response;
 import org.projet_iwa.alert.location.api.repository.LocationRepository;
@@ -46,7 +47,7 @@ public class LocationController {
 //    }
 
     @GetMapping
-    public Response<?,?> sendLocation(){
-        return iLocationService.sendLocation();
+    public Response<?,?> sendLocation(@RequestBody LocationDTO locationDTO){
+        return iLocationService.sendLocation(locationDTO);
     }
 }

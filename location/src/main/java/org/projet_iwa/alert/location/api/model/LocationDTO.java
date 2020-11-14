@@ -66,4 +66,5 @@ public class LocationDTO {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
 }
