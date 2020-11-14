@@ -1,0 +1,36 @@
+server:
+  port: ${PORT}
+
+app:
+  version: 26
+
+spring :
+  profiles: prod
+  datasource:
+    url: ${db_url}
+    username: ${db_username}
+    password:  ${db_password}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+  jta:
+    atomikos:
+      datasource:
+        concurrent-connection-validation:
+
+keycloak:
+  auth-server-url: https://covid-alert-g4-keycloak.herokuapp.com/auth
+  realm: covid_alert
+  resource: covid_alert_auth
+  public-client: true
+  ssl-required: external
+  confidential-port: 0
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true
+logging:
+  level:
+    org: warn

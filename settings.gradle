@@ -3,3 +3,4 @@ rootProject.name = "Projet_IWA"
 include 'auth'
 include 'alert'
 include 'location'
+include 'front_web'
