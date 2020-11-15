@@ -12,6 +12,7 @@ spring :
     hibernate:
       ddl-auto: none
       show-sql: true
+    open-in-view: false
   mail:
     host: ${smtp_host}
     port: ${smtp_port}
