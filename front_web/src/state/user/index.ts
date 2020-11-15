@@ -1,11 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Action, ActionCreatorWithPayload, CaseReducerActions, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserState } from './types';
 import { RootState } from '../store';
+import { Plan } from 'grommet-icons';
+import { SliceActions } from '../../globals';
 // import { cookies, COOKIE_NAMES } from '../../constants/cookies';
 
 const initialState: UserState = {
     loggedIn: false,
-    currentUser: undefined
+    currentUser: undefined,
+    loading: false
     // username: cookies.get( COOKIE_NAMES.username ),
     // loggedIn: cookies.get( COOKIE_NAMES.loggedIn ),
     // isAdminOf: cookies.get( COOKIE_NAMES.admin ),
@@ -13,7 +16,13 @@ const initialState: UserState = {
 };
 
 type LoginParams = {
+    username: string;
+    password: string;
+};
+
+type CreateAccountParams = {
     user: User;
+    password: string;
 };
 
 /**
@@ -24,39 +33,30 @@ export const userSlice = createSlice( {
     name: 'user',
     initialState,
     reducers: {
-        // Pass the username into the login action
-        // Change the state accordingly
-        login: ( state, action: PayloadAction<LoginParams> ) => {
+        loading: ( state, action: PayloadAction<boolean> ) => {
+            state.loading = action.payload;
+        },
+        logInUser: ( state, action: PayloadAction<User> ) => {
             state.loggedIn = true;
-            state.currentUser = action.payload.user;
+            state.currentUser = action.payload;
             // cookies.set( COOKIE_NAMES.loggedIn, true, { path: '/' } );
             // cookies.set( COOKIE_NAMES.username, action.payload.user, { path: '/' } );
             // cookies.set( COOKIE_NAMES.admin, action.payload.adminOf, { path: '/' } );
         },
-        // Return to null state and remove cookies
-        logout: ( state ) => {
-            state.loggedIn = false;
-            state.currentUser = undefined;
-            // cookies.remove( COOKIE_NAMES.username );
-            // cookies.remove( COOKIE_NAMES.loggedIn );
-            // cookies.remove( COOKIE_NAMES.admin );
-        }
+        // logout: ( state ) => {
+        //     state.loggedIn = false;
+        //     state.currentUser = undefined;
+        //     // cookies.remove( COOKIE_NAMES.username );
+        //     // cookies.remove( COOKIE_NAMES.loggedIn );
+        //     // cookies.remove( COOKIE_NAMES.admin );
+        // }
     },
 } );
 
-// Export the actions to be used as functions throughout the app
-export const { login, logout } = userSlice.actions;
+export const { logInUser, loading } = userSlice.actions;
 
-// // Create custom selector functions (essentially a getter)
-// export const isLoggedIn = ( state: RootState ) => state.user.loggedIn;
-
-// export const getUsername = ( state: RootState ) => state.user.username;
-
-// export const portal = ( state: RootState ) => state.user.portal;
-
-// export const adminOf = ( state: RootState ) => state.user.isAdminOf;
-
-// Grab the reducer and export it as the default
 const userReducer = userSlice.reducer;
 
 export default userReducer;
+
+export type UserActionTypes =  ActionCreatorWithPayload<typeof userSlice.actions, string>;

@@ -1,12 +1,13 @@
 export type UserState = {
     loggedIn: boolean;
     currentUser?: User;
-}
+    loading: boolean;
+};
 
 export type User = {
-    user_id: number;
+    userId: number;
     username: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     email: string;
-}
+};

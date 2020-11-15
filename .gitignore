@@ -4,6 +4,12 @@
 
 build
 
+<<<<<<< Updated upstream
+=======
+front_web/node_modules/**/*
+.vscode/*
+
+>>>>>>> Stashed changes
 auth/src/main/resources/application.yml
 
 alert/src/main/resources/application.yml

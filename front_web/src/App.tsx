@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Box, Button, Heading, Grommet, Collapsible, ResponsiveContext, Layer } from 'grommet';
 import { FormClose, Notification } from 'grommet-icons';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import LoginScreen from './components/auth/LoginScreen';
+import MainScreen from './components/MainScreen';
+import CreateAccountScreen from './components/auth/CreateAccountScreen';
+import Navbar from './components/Navbar';
 
 const theme = {
   global: {
     colors: {
-      brand: '#228BE6'
+      brand: '#22dce6'
     },
     font: {
       family: 'Roboto',
@@ -16,81 +21,28 @@ const theme = {
   },
 };
 
-const AppBar = ( props: any ) => (
-  <Box
-    tag='header'
-    direction='row'
-    align='center'
-    justify='between'
-    background='brand'
-    pad={{ left: 'medium', right: 'small', vertical: 'small' }}
-    elevation='medium'
-    style={{ zIndex: '1' }}
-    {...props}
-  />
-);
+
 
 export default () => {
 
-  const [ showSidebar, setShowSidebar ] = useState( false );
+  // const [ showSidebar, setShowSidebar ] = useState( false );
   return (
-    <Grommet {...{ theme }} full>
-      <ResponsiveContext.Consumer>
-        {size => (
-          <Box fill>
-            <AppBar>
-              <Heading level='3' margin='none'>
-                Alerte Covid !</Heading>
-              <Button
-                icon={<Notification />}
-                onClick={() => setShowSidebar( !showSidebar )}
-              />
-            </AppBar>
-            <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
-              <Box flex align='center' justify='center'>
-                app body
-            </Box>
-              {size !== 'small' ? (
-                <Collapsible direction="horizontal" open={showSidebar}>
-                  <Box
-                    flex
-                    width='medium'
-                    background='light-2'
-                    elevation='small'
-                    align='center'
-                    justify='center'
-                  >
-                    sidebar
-                  </Box>
-                </Collapsible>
-              ) : (
-                  <Layer>
-                    <Box
-                      background='light-2'
-                      tag='header'
-                      justify='end'
-                      align='center'
-                      direction='row'
-                    >
-                      <Button
-                        icon={<FormClose />}
-                        onClick={() => setShowSidebar( false )}
-                      />
-                    </Box>
-                    <Box
-                      fill
-                      background='light-2'
-                      align='center'
-                      justify='center'
-                    >
-                      sidebar
-                </Box>
-                  </Layer> )}
+    <Router>
+      <Grommet {...{ theme }} full>
+        <Box fill>
+          <Navbar />
+          <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+            <Box flex align='center' justify='center'>
+              <Switch >
+                <Route exact path="/" component={MainScreen} />
+                <Route path="/login" component={LoginScreen} />
+                <Route path="/createAccount" component={CreateAccountScreen} />
+              </Switch>
             </Box>
           </Box>
-        )}
-      </ResponsiveContext.Consumer>
-    </Grommet >
+        </Box>
+      </Grommet >
+    </Router>
   );
 };
 
