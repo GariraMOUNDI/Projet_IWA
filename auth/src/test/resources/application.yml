@@ -1,9 +1,10 @@
 server:
-  port: 8888
+  port: ${port:8080}
+  url : ${url}
 
 spring :
   datasource:
-    url: ${db_url}
+    url: ${database.url:jdbc:postgresql://localhost:5432/dokku-demo}
     username: ${db_username}
     password:  ${db_password}
   jpa:
@@ -11,13 +12,24 @@ spring :
     hibernate:
       ddl-auto: none
       show-sql: true
+  mail:
+    host: ${smtp_host}
+    port: ${smtp_port}
+    username: ${email}
+    password: ${password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 keycloak:
-  auth-server-url: https://covid-alert-g4-keycloak.herokuapp.com/auth
-  realm: covid_alert
-  resource: covid_alert_auth
+  auth-server-url: ${keycloak_server}
+  realm: ${keycloak_realm}
+  resource: ${keycloak_client}
   credentials:
-    secret: 7593ae8a-49f2-4e8f-9083-de95129f44a9
+    secret: ${keycloak_client_secret}
   public-client: true
   ssl-required: external
   confidential-port: 0
@@ -28,6 +40,6 @@ keycloak:
 
 covid-alert :
   keycloak :
-    admin-username: projet_iwa_g4
-    admin-password: projet_iwa_g4
-    user-role: user
+    admin-username: ${keycloak_admin_username}
+    admin-password: ${keycloak_admin_password}
+    user-role: ${keycloak_user_role}

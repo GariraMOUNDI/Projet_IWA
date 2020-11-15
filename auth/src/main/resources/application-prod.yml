@@ -1,10 +1,10 @@
 server:
-  port: ${PORT}
-  url : ${URL}
+  port: ${port:8080}
+  url : ${url}
 
 spring :
   datasource:
-    url: ${db_url}
+    url: ${database.url:jdbc:postgresql://localhost:5432/dokku-demo}
     username: ${db_username}
     password:  ${db_password}
   jpa:
