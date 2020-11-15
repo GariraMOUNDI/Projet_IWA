@@ -1,15 +1,18 @@
-import { Box, Grid, Form, FormField, TextInput, Button } from 'grommet';
+import { Box, Form, FormField, TextInput, Button } from 'grommet';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../state/user/queries';
 
 export default () => {
     const [ username, setUsername ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
+    const dispatch = useDispatch();
 
     return (
         <Box animation={{ type: "slideLeft", duration: 300 }
         }>
             <Form
-                onSubmit={() => { console.log( username, password ); }}
+                onSubmit={() => { dispatch( login( { username, password } ) ); }}
                 onReset={() => { setUsername( '' ); setPassword( '' ); }}
             >
                 <FormField name="username" label="Pseudo">

@@ -7,6 +7,8 @@ import LoginScreen from './components/auth/LoginScreen';
 import MainScreen from './components/MainScreen';
 import CreateAccountScreen from './components/auth/CreateAccountScreen';
 import Navbar from './components/Navbar';
+import { Provider } from 'react-redux';
+import { store } from './state/store';
 
 const theme = {
   global: {
@@ -27,22 +29,25 @@ export default () => {
 
   // const [ showSidebar, setShowSidebar ] = useState( false );
   return (
-    <Router>
-      <Grommet {...{ theme }} full>
-        <Box fill>
-          <Navbar />
-          <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
-            <Box flex align='center' justify='center'>
-              <Switch >
-                <Route exact path="/" component={MainScreen} />
-                <Route path="/login" component={LoginScreen} />
-                <Route path="/createAccount" component={CreateAccountScreen} />
-              </Switch>
+
+    <Provider store={store}>
+      <Router>
+        <Grommet {...{ theme }} full>
+          <Box fill>
+            <Navbar />
+            <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+              <Box flex align='center' justify='center'>
+                <Switch >
+                  <Route exact path="/" component={MainScreen} />
+                  <Route path="/login" component={LoginScreen} />
+                  <Route path="/createAccount" component={CreateAccountScreen} />
+                </Switch>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </Grommet >
-    </Router>
+        </Grommet >
+      </Router>
+    </Provider>
   );
 };
 
