@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - openjdk15
+sudo: required
+before_install:
+  - chmod +x gradlew
+services:
+  - docker
+git:
+  depth: false
+# safelist
+branches:
+  only:
+    - alert
+    - auth
+    - location
+    - master
+
+#script: ./gradlew clean install
+notification:
+  email:
+    - stuparu.an@gmail.com
+
