@@ -5,8 +5,8 @@ server:
 spring :
   datasource:
     url: ${database.url:jdbc:postgresql://localhost:5432/dokku-demo}
-    username: ${db_username}
-    password:  ${db_password}
+#    username: ${db_username}
+#    password:  ${db_password}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
