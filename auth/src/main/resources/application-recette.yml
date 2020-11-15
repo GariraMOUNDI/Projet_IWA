@@ -1,5 +1,5 @@
 server:
-  port: ${PORT}
+  port: ${port}
   url : ${URL}
 
 spring :
@@ -44,5 +44,5 @@ covid-alert :
     admin-password: ${keycloak_admin_password}
     user-role: ${keycloak_user_role}
 
-logging:
-  level: debug
+#logging:
+#  level: debug
