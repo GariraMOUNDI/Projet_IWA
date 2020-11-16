@@ -5,14 +5,14 @@ server:
 spring :
   datasource:
     url: ${DATABASE_URL}
-#    username: ${db_username}
-#    password:  ${db_password}
+    username: ${db_username}
+    password:  ${db_password}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
       show-sql: true
-    open-in-view: false
+#    open-in-view: false
   mail:
     host: ${smtp_host}
     port: ${smtp_port}
