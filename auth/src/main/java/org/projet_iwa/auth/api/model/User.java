@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "users")
 @Access(AccessType.FIELD)
@@ -98,7 +97,7 @@ public class User {
     }
 
     public String getEncryptedPassword(String password) {
-        return new DigestUtils("SHA3-256").digestAsHex(password);
+        return new DigestUtils("SHA-256").digestAsHex(password);
     }
 
 
