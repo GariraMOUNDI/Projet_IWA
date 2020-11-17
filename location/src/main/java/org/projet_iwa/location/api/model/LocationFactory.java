@@ -1,4 +1,4 @@
-package org.projet_iwa.alert.location.api.model;
+package org.projet_iwa.location.api.model;
 
 import org.springframework.stereotype.Component;
 

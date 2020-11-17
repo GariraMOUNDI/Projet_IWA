@@ -1,30 +1,24 @@
-package org.projet_iwa.alert.location.api.model;
+package org.projet_iwa.location.api.model;
 
-
-import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
-@Entity(name="locations")
-@Access(AccessType.FIELD)
-public class Location {
+public class LocationDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idLocation;
     private Long latitude;
     private Long longitude;
     private Long altitude;
     private String idUser;
     private Timestamp date;
+    private LocationStatus status;
 
-    public Location(String idLocation, Long latitude, Long longitude,Long altitude) {
+    public LocationDTO(String idLocation, Long latitude, Long longitude,Long altitude) {
         this.idLocation = idLocation;
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
     }
-    public Location(){}
+
 
     public String getIdLocation() {
         return idLocation;
@@ -50,11 +44,11 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public Long getAlt() {
+    public Long getAltitude() {
         return altitude;
     }
 
-    public void setAlt(Long altitude) {
+    public void setAltitude(Long altitude) {
         this.altitude = altitude;
     }
 
@@ -74,4 +68,11 @@ public class Location {
         this.date = date;
     }
 
+    public LocationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LocationStatus status) {
+        this.status = status;
+    }
 }

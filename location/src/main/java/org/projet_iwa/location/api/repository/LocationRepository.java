@@ -1,6 +1,6 @@
-package org.projet_iwa.alert.location.api.repository;
+package org.projet_iwa.location.api.repository;
 
-import org.projet_iwa.alert.location.api.model.Location;
+import org.projet_iwa.location.api.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

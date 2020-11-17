@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/covid_security
+    username: projet_iwa
+    password: projet_iwa
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+  mail:
+    host: ${smtp_host}
+    port: ${smtp_port}
+    username: ${email}
+    password: ${password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  kafka:
+    bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094, tricycle-02.srvs.cloudkafka.com:9094, tricycle-03.srvs.cloudkafka.com:9094
+    consumer:
+      group-id: jip6qp3z-consumers
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="jip6qp3z" password="0Va4zYmZNNSD2HTNQy_qL7ajT2_D4MNe";
+    template:
+      default-topic: jip6qp3z-default
+
+keycloak:
+  auth-server-url: ${keycloak_server}
+  realm: ${keycloak_realm}
+  resource: ${keycloak_client}
+  credentials:
+    secret: ${keycloak_client_secret}
+  public-client: true
+  ssl-required: external
+  confidential-port: 0
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true
+
+
+covid-alert :
+  safe-topic: jip6qp3z-default
+  contact: jip6qp3z-default
+  covid: jip6qp3z-default
+  keycloak :
+    admin-username: ${keycloak_admin_username}
+    admin-password: ${keycloak_admin_password}
+    user-role: ${keycloak_user_role}
+
+
+
+
+
+#logging.level.org.springframework.security=DEBUG
+
