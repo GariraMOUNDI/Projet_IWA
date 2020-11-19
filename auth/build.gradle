@@ -47,5 +47,5 @@ test {
     useJUnitPlatform()
 }
 
-task stage(dependsOn: ['assemble', 'clean'])
+task stage(dependsOn: ['bootJar', 'clean'])
 build.mustRunAfter clean
