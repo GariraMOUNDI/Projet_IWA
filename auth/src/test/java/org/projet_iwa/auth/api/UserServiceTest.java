@@ -26,20 +26,20 @@ public class UserServiceTest {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
-    @Test
-    public void createUserTest(){
-        assertThat(userService).isNotNull();
-        UserDTO userDTO = getSampleDTO();
-        UserResponse response = userService.createUser(userDTO);
-        if(response.getType() == UserResponseType.USER_EXIST){
-            User user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
-            verificationTokenRepository.deleteAll();
-            assert user != null;
-            userRepository.deleteById(user.getUser_id());
-            response = userService.createUser(userDTO);
-        }
-        assertThat(UserResponseType.USER_CREATED).isEqualTo(response.getType());
-    }
+//    @Test
+//    public void createUserTest(){
+//        assertThat(userService).isNotNull();
+//        UserDTO userDTO = getSampleDTO();
+//        UserResponse response = userService.createUser(userDTO);
+//        if(response.getType() == UserResponseType.USER_EXIST){
+//            User user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
+//            verificationTokenRepository.deleteAll();
+//            assert user != null;
+//            userRepository.deleteById(user.getUser_id());
+//            response = userService.createUser(userDTO);
+//        }
+//        assertThat(UserResponseType.USER_CREATED).isEqualTo(response.getType());
+//    }
 
     private UserDTO getSampleDTO(){
         UserDTO dto = new UserDTO(
