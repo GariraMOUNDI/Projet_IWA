@@ -44,28 +44,8 @@ dependencies{
 }
 
 test {
-    def env_var = [
-            'url' : System.getenv('url'),
-            "DATABASE_URL" : System.getenv('DATABASE_URL'),
-            "db_username" : System.getenv('db_username'),
-            "db_password" : System.getenv('db_password'),
-            "smtp_host" : System.getenv('smtp_host'),
-            "smtp_port" : System.getenv('smtp_port'),
-            "email" : System.getenv('email'),
-            "password" : System.getenv('password'),
-            "keycloak_server" : System.getenv('keycloak_server'),
-            "keycloak_realm" : System.getenv('keycloak_realm'),
-            "keycloak_client" : System.getenv('keycloak_client'),
-            "keycloak_client_secret" : System.getenv('keycloak_client_secret'),
-            "keycloak_admin_username" : System.getenv('keycloak_admin_username'),
-            "keycloak_admin_password" : System.getenv('keycloak_admin_password'),
-            "keycloak_user_role" : System.getenv('keycloak_user_role')
-    ]
-
-    environment env_var
-
     useJUnitPlatform()
 }
 
-task stage(dependsOn: ['build', 'clean'])
+task stage(dependsOn: ['assemble', 'clean'])
 build.mustRunAfter clean
