@@ -25,6 +25,9 @@ public class UserDTO {
         this.enabled = enabled;
     }
 
+    // Only for test
+    public UserDTO(){}
+
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }

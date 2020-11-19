@@ -10,6 +10,7 @@ import org.projet_iwa.auth.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static  org.assertj.core.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -25,19 +26,20 @@ public class UserServiceTest {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
-//    @Test
-//    public void createUserTest(){
-//        UserDTO userDTO = getSampleDTO();
-//        UserResponse response = userService.createUser(userDTO);
-//        if(response.getType() == UserResponseType.USER_EXIST){
-//            User user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
-//            verificationTokenRepository.deleteAll();
-//            assert user != null;
-//            userRepository.deleteById(user.getUser_id());
-//            response = userService.createUser(userDTO);
-//        }
-//        Assert.assertEquals(UserResponseType.USER_CREATED, response.getType());
-//    }
+    @Test
+    public void createUserTest(){
+        assertThat(userService).isNotNull();
+        UserDTO userDTO = getSampleDTO();
+        UserResponse response = userService.createUser(userDTO);
+        if(response.getType() == UserResponseType.USER_EXIST){
+            User user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
+            verificationTokenRepository.deleteAll();
+            assert user != null;
+            userRepository.deleteById(user.getUser_id());
+            response = userService.createUser(userDTO);
+        }
+        assertThat(UserResponseType.USER_CREATED).isEqualTo(response.getType());
+    }
 
     private UserDTO getSampleDTO(){
         UserDTO dto = new UserDTO(
@@ -46,7 +48,7 @@ public class UserServiceTest {
                 "parti",
                 "parti",
                 "parti",
-                "parti@parti.com",
+                "parti@gmail.com",
                 "1548697",
                 false
         );
