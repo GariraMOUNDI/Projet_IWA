@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import user from './user';
+import location from './location';
 
 /**
  * Combine reducers created manually or by createSlice to create a global state.
@@ -8,6 +9,7 @@ import user from './user';
 export const store = configureStore( {
     reducer: {
         user,
+        location
     },
 } );
 

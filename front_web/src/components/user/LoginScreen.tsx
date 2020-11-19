@@ -1,7 +1,8 @@
-import { Box, Form, FormField, TextInput, Button } from 'grommet';
+import { Box, Form, FormField, TextInput, Button, Heading, Anchor } from 'grommet';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../state/user/queries';
+import { Link } from 'react-router-dom';
+import { login } from '../../state/user';
 
 export default () => {
     const [ username, setUsername ] = useState( '' );
@@ -11,6 +12,7 @@ export default () => {
     return (
         <Box animation={{ type: "slideLeft", duration: 300 }
         }>
+            <Heading>Connexion</Heading>
             <Form
                 onSubmit={() => { dispatch( login( { username, password } ) ); }}
                 onReset={() => { setUsername( '' ); setPassword( '' ); }}
@@ -19,9 +21,12 @@ export default () => {
                     <TextInput id="text-input-username" name="username" value={username} onChange={ev => setUsername( ev.target.value )} />
                 </FormField>
                 <FormField name="password" label="Mot de passe">
-                    <TextInput id="text-input-password" name="password" value={password} onChange={ev => setPassword( ev.target.value )} />
+                    <TextInput id="text-input-password" name="password" value={password} onChange={ev => setPassword( ev.target.value )} type="password" />
                 </FormField>
-                <Box direction="row" gap="medium">
+                <Link to='/forgot' >
+                    <Anchor label="Mot de passe oublié ?" margin={{ vertical: "medium" }} />
+                </Link>
+                <Box direction="row" justify="center" gap="large" margin={{ vertical: "medium" }}>
                     <Button type="submit" primary label="Connexion" disabled={username === '' || password === ''} />
                     <Button type="reset" label="Reset" />
                 </Box>

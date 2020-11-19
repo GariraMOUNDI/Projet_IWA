@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { Box, Button, Heading, Grommet, Collapsible, ResponsiveContext, Layer } from 'grommet';
-import { FormClose, Notification } from 'grommet-icons';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import LoginScreen from './components/auth/LoginScreen';
-import MainScreen from './components/MainScreen';
-import CreateAccountScreen from './components/auth/CreateAccountScreen';
+import React from 'react';
+import { Box, Grommet } from 'grommet';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import LoginScreen from './components/user/LoginScreen';
+import WelcomeScreen from './components/WelcomeScreen';
+import CreateAccountScreen from './components/user/CreateAccountScreen';
 import Navbar from './components/Navbar';
-import { Provider } from 'react-redux';
-import { store } from './state/store';
+import MainScreen from './components/MainScreen';
+import UserError from './components/Error';
+import { useSelector } from 'react-redux';
+import { loggedIn } from './state/user';
+import ConfirmAccountScreen from './components/user/ConfirmAccountScreen';
+import UserLoading from './components/Loading';
+import { Colors } from './globals';
+import ForgotPasswordScreen from './components/user/ForgotPasswordScreen';
 
 const theme = {
   global: {
-    colors: {
-      brand: '#22dce6'
-    },
+    colors: { ...Colors },
     font: {
       family: 'Roboto',
       size: '18px',
@@ -27,27 +29,31 @@ const theme = {
 
 export default () => {
 
+  const connected = useSelector( loggedIn );
   // const [ showSidebar, setShowSidebar ] = useState( false );
   return (
-
-    <Provider store={store}>
-      <Router>
-        <Grommet {...{ theme }} full>
-          <Box fill>
-            <Navbar />
-            <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
-              <Box flex align='center' justify='center'>
-                <Switch >
-                  <Route exact path="/" component={MainScreen} />
-                  <Route path="/login" component={LoginScreen} />
-                  <Route path="/createAccount" component={CreateAccountScreen} />
-                </Switch>
-              </Box>
+    <Router>
+      <Grommet {...{ theme }} full>
+        <Box fill >
+          <Navbar />
+          <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+            <Box flex align='center' justify='center'>
+              <UserLoading />
+              <UserError />
+              {!connected ? <Redirect to="/welcome" /> : <Redirect to="/" />}
+              <Switch >
+                <Route exact path="/" component={MainScreen} />
+                <Route path="/welcome" component={WelcomeScreen} />
+                <Route path="/login" component={LoginScreen} />
+                <Route path="/createAccount" component={CreateAccountScreen} />
+                <Route path="/confirmAccount/:token" component={ConfirmAccountScreen} />
+                <Route path="/forgot" component={ForgotPasswordScreen} />
+              </Switch>
             </Box>
           </Box>
-        </Grommet >
-      </Router>
-    </Provider>
+        </Box>
+      </Grommet >
+    </Router>
   );
 };
 
