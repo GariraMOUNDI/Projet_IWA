@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-@Qualifier("UserService")
 public class UserService implements IUserService {
 
     @Autowired

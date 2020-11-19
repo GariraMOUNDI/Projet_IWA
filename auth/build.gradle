@@ -36,6 +36,7 @@ dependencies{
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.jayway.jsonpath:json-path"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind"
 
     testImplementation("org.springframework.boot:spring-boot-starter-test" ) {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

@@ -21,7 +21,6 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    @Qualifier("UserService")
     private IUserService iUserService;
 
     @PostMapping("/create")
