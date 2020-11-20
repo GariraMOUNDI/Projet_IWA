@@ -43,6 +43,8 @@ dependencies{
     }
 }
 
+test.enabled = false
+
 test {
     useJUnitPlatform()
 }
