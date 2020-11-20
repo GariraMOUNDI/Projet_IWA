@@ -1,7 +1,9 @@
 package org.projet_iwa.auth.api.config;
 
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.projet_iwa.auth.api.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +29,17 @@ public class KeycloakService {
         keycloak_user.setCredentials(Collections.singletonList(getCredentials(userDTO.getPassword())));
 
         Response response = keycloakInit.getRealm().users().create(keycloak_user);
-//        String created_id = CreatedResponseUtil.getCreatedId(response);
+        String created_id = CreatedResponseUtil.getCreatedId(response);
 
-        // Give a role to new users
-//        RoleRepresentation user_role =
-//                keycloakInit.getRoles()
-//                        .get(keycloakInit.getKeycloak_user_role())
-//                        .toRepresentation();
-
+//         Give a role to new users
+//        RoleRepresentation user_role = new RoleRepresentation()
+//                .singleAttribute("ROLE_USER", keycloakInit.getKeycloak_user_role());
+//
 //        keycloakInit.getRealm()
 //                .users()
 //                .get(created_id)
 //                .roles()
-//                .clientLevel(keycloakInit.getKeycloak_resource())
+//                .clientLevel(keycloakInit.getKeycloak_client_id())
 //                .add(Collections.singletonList(user_role));
     }
 

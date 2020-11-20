@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/forgotUser")
     public Response<?, ?> forgotPassword(@RequestBody UserDTO userDTO){
-        return iUserService.forgotPassword(userDTO);
+        return iUserService.forgotPassword(userDTO.getUsername());
     }
 
 

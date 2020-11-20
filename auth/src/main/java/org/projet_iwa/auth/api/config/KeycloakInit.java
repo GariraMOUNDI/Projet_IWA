@@ -59,4 +59,13 @@ public class KeycloakInit {
 
         return keycloak.tokenManager().getAccessToken();
     }
+
+    public String getKeycloak_user_role() {
+        return keycloak_user_role;
+    }
+
+    public String getKeycloak_client_id(){
+        return keycloak_client_id;
+    }
+
 }

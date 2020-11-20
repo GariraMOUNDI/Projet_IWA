@@ -2,6 +2,7 @@ package org.projet_iwa.auth.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.keycloak.representations.AccessTokenResponse;
 import org.projet_iwa.auth.api.model.UserDTO;
 
 public class SampleData {
@@ -20,6 +21,9 @@ public class SampleData {
                 false
         );
         dto.setConfirm_pass("parti");
+        AccessTokenResponse at = new AccessTokenResponse();
+        at.setToken("qsflkqhslkfjqhsjkfnjshvlkzdjlfkmndsmvnoqsjflq;sjvmkjsfhdvjpfdjkbsfmmjqsd^fjksdlks");
+        dto.setToken(at);
         return dto;
     }
 

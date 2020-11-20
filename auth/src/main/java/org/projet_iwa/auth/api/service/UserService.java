@@ -95,8 +95,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse forgotPassword(UserDTO userDTO) {
-        User user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
+    public UserResponse forgotPassword(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
         if(user == null)
             return new UserResponse(UserResponseType.USER_NOT_EXIST);
 
