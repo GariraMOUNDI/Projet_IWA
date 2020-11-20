@@ -87,7 +87,7 @@ export const forgotPassword = createAsyncThunk<{ success: UserSuccessTypes; }, U
 ///////////////////////////////////////////////////////////////////////////
 // STATE
 const initialState: UserState = {
-    loggedIn: true,
+    loggedIn: false,
     confirmed: false,
     loading: false,
     currentUser: undefined,
