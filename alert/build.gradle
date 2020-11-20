@@ -32,7 +32,7 @@ dependencies{
 
     implementation "commons-codec:commons-codec"
 
-//    testImplementation "org.springframework.security:spring-security-test"
+    testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.jayway.jsonpath:json-path"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
