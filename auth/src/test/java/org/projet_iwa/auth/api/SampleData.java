@@ -6,6 +6,7 @@ import org.keycloak.representations.AccessTokenResponse;
 import org.projet_iwa.auth.api.model.User;
 import org.projet_iwa.auth.api.model.UserDTO;
 import org.projet_iwa.auth.api.model.UserFactory;
+import org.projet_iwa.auth.api.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SampleData {
@@ -38,5 +39,11 @@ public class SampleData {
 
     public static User getSampleUser(){
         return userFactory.createUserModel(getSampleDTO());
+    }
+
+    public static VerificationToken getSampleVerificationToken(){
+        VerificationToken vt = new VerificationToken();
+        vt.setExpirydate(20);
+        return vt;
     }
 }

@@ -44,3 +44,4 @@ covid-alert :
     admin-username: ${keycloak_admin_username}
     admin-password: ${keycloak_admin_password}
     user-role: ${keycloak_user_role}
+
