@@ -41,10 +41,6 @@ public class UserServiceTest {
                 .when(userRepository).existsByUsername(any());
         doReturn(false)
                 .when(userRepository).existsByEmail(any());
-        doReturn(null)
-                .when(userRepository).saveAndFlush(any());
-        doReturn(null)
-                .when(verificationTokenRepository).saveAndFlush(any());
 
         UserResponse response = userService.createUser(SampleData.getSampleDTO());
         assertThat(UserResponseType.USER_CREATED).isEqualTo(response.getType());

@@ -39,7 +39,6 @@ public class UserControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.type").value(UserResponseType.USER_CREATED.toString()))
         .andExpect(jsonPath("$.payload").isEmpty());
-
     }
 
     @Test

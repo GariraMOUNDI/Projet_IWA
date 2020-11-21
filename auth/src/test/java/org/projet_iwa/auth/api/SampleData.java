@@ -33,8 +33,8 @@ public class SampleData {
         return dto;
     }
 
-    public static String toJson(UserDTO s) throws JsonProcessingException {
-        return map.writeValueAsString(s);
+    public static String toJson(UserDTO userDTO) throws JsonProcessingException {
+        return map.writeValueAsString(userDTO);
     }
 
     public static User getSampleUser(){
