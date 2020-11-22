@@ -16,8 +16,8 @@ export default () => {
                 animation="slide"
                 position="top"
                 plain>
-                <Box pad="medium" background="brand2" round margin={{ vertical: "xlarge" }}>
-                    <Text>Loading</Text>
+                <Box pad={{horizontal: "xlarge", vertical: 'small'}} background="brand2" round margin={{ vertical: "xlarge" }} elevation="large">
+                    <Text size="medium">Loading</Text>
                 </Box>
             </Layer>
             }

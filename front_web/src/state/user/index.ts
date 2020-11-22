@@ -1,4 +1,4 @@
-import { ActionCreatorWithPayload, createAsyncThunk, createSlice, } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { User, UserState, UserSuccessTypes } from './types';
@@ -10,7 +10,7 @@ import { RootState } from '../store';
 // ACTIONS
 export const login = createAsyncThunk<{ user: User, confirmed: boolean; success: UserSuccessTypes; }, { username: string; password: string; }>( 'user/login',
     async ( { username, password }, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.baseUrl }/users/login`,
+        const response = await axios.post( `${ apiconfig.authUrl }/users/login`,
             {
                 username,
                 password
@@ -35,7 +35,7 @@ export const login = createAsyncThunk<{ user: User, confirmed: boolean; success:
 
 export const createUser = createAsyncThunk<{ success: UserSuccessTypes; }, { user: User; password: string; confirmPassword: string; }>( 'user/createUser',
     async ( { user, password, confirmPassword }, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.baseUrl }/users/create`,
+        const response = await axios.post( `${ apiconfig.authUrl }/users/create`,
             {
                 username: user.username,
                 first_name: user.firstName,
@@ -58,7 +58,7 @@ export const createUser = createAsyncThunk<{ success: UserSuccessTypes; }, { use
 
 export const confirmEmail = createAsyncThunk<{ success: UserSuccessTypes; }, string>( 'user/confirmEmail',
     async ( token, thunkAPI ) => {
-        const response = await axios.get( `${ apiconfig.baseUrl }/users/confirmUser?token=${ token }`, {} )
+        const response = await axios.get( `${ apiconfig.authUrl }/users/confirmUser?token=${ token }`, {} )
             .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( err => { console.log( err ); return { type: err.message }; } );
 
@@ -72,7 +72,7 @@ export const confirmEmail = createAsyncThunk<{ success: UserSuccessTypes; }, str
 
 export const forgotPassword = createAsyncThunk<{ success: UserSuccessTypes; }, User>( 'user/forgotPassword',
     async ( user, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.baseUrl }/users/forgotUser`, { username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, phoneNumber: user.phoneNumber } )
+        const response = await axios.post( `${ apiconfig.authUrl }/users/forgotUser`, { username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, phoneNumber: user.phoneNumber } )
             .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( err => { console.log( err ); return { type: err.message }; } );
 

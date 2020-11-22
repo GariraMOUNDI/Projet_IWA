@@ -1,4 +1,3 @@
-import { time } from 'console';
 import { Box, Heading, Image, Text, Button, Menu } from 'grommet';
 import { FormNext, PowerReset } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';

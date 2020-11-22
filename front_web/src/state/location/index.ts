@@ -8,7 +8,7 @@ import { LocationState, LocationSuccessTypes, LocationType } from "./types";
 
 export const sendLocation = createAsyncThunk<{ success: LocationSuccessTypes; }, LocationType>( 'location/sendLocation',
     async ( location, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.baseUrl }/location`, { ...location } )
+        const response = await axios.post( `${ apiconfig.locationUrl }/location`, { ...location } )
             .then( response => response.data )
             .catch( err => { console.log( err ); return { type: err.message }; } );
 
