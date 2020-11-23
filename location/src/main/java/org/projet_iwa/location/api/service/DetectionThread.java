@@ -2,6 +2,7 @@ package org.projet_iwa.location.api.service;
 
 import org.projet_iwa.location.api.model.Cluster;
 import org.projet_iwa.location.api.model.Location;
+import org.projet_iwa.location.api.service.LocationService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -138,7 +139,7 @@ public class DetectionThread implements Runnable {
 
         // Producing event for each cluster and sending them to Kafka
         for (Cluster cluster : clusters) {
-            // blablabla
+            sendCluster(cluster);
         }
 
     }

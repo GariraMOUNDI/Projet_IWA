@@ -17,13 +17,14 @@ public class Location {
     private Long altitude;
     private String idUser;
     private Timestamp date;
-    private LocationStatus status;
+    private Boolean covidStatus;
 
-    public Location(String idLocation, Long latitude, Long longitude,Long altitude) {
+    public Location(String idLocation, Long latitude, Long longitude, Long altitude, Boolean covidStatus) {
         this.idLocation = idLocation;
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
+        this.covidStatus = covidStatus;
     }
     public Location(){}
 
@@ -75,11 +76,11 @@ public class Location {
         this.date = date;
     }
 
-    public LocationStatus getStatus() {
-        return status;
+    public Boolean getCovidStatus() {
+        return covidStatus;
     }
 
-    public void setStatus(LocationStatus status) {
-        this.status = status;
+    public void setCovidStatus(Boolean covidStatus) {
+        this.covidStatus = covidStatus;
     }
 }

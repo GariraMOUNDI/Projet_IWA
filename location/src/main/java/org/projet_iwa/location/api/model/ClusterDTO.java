@@ -1,15 +1,8 @@
 package org.projet_iwa.location.api.model;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-@Entity(name="clusters")
-@Access(AccessType.FIELD)
-public class Cluster {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ClusterDTO {
     private String idCluster;
     private Long averageLatitude;
     private Long averageLongitude;
@@ -17,7 +10,7 @@ public class Cluster {
     private String[] idUsers;
 
 
-    public Cluster(Long latitude, Long longitude, Timestamp date, String[] idUsers) {
+    public ClusterDTO(Long latitude, Long longitude, Timestamp date, String[] idUsers) {
         this.averageLatitude = latitude;
         this.averageLongitude = longitude;
         this.approximateDate = date;
@@ -62,30 +55,5 @@ public class Cluster {
 
     public void setIdUsers(String[] idUsers) {
         this.idUsers = idUsers;
-    }
-
-    public boolean containsEach(String[] idUsers) {
-        boolean[] alreadyIn = new boolean[idUsers.length];
-        int found = 0;
-        int givenUsersCounter = 0;
-        int clusterUsersCounter = 0;
-
-        while (found < idUsers.length && clusterUsersCounter < this.idUsers.length) {
-
-            while (found < idUsers.length && givenUsersCounter < idUsers.length) {
-
-                if ((!alreadyIn[givenUsersCounter]) && (this.idUsers[clusterUsersCounter] == idUsers[givenUsersCounter])) {
-                    found += 1;
-                    alreadyIn[givenUsersCounter] = true;
-                }
-
-                givenUsersCounter += 1;
-            }
-
-            givenUsersCounter = 0;
-            clusterUsersCounter += 1;
-        }
-
-        return found == idUsers.length;
     }
 }

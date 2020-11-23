@@ -34,7 +34,7 @@ public class DetectionRunnerThread extends TimerTask {
             }
         }
 
-        // Copying the array and creating the thread
+        // Copying the array and creating the detection thread
 
         if (recentLocations.size() > 1) {
 

@@ -55,9 +55,9 @@ keycloak:
 
 
 covid-alert :
-  safe-topic: jip6qp3z-default
-  contact: jip6qp3z-default
-  covid: jip6qp3z-default
+  location-topic: jip6qp3z-location
+  cluster-topic: jip6qp3z-cluster
+  alert-topic: jip6qp3z-alert
   keycloak :
     admin-username: ${keycloak_admin_username}
     admin-password: ${keycloak_admin_password}
