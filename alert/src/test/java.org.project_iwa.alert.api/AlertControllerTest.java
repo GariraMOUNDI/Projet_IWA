@@ -10,15 +10,18 @@ public class AlertControllerTest {
     private IAlertService ialertService;
 
     @Test
-    public void createAlert() throws Exception {
-        when(ialertService.createAlert(SampleData.getSampleDTO()))
-                .thenReturn(null);
+    public void sendAlert() throws Exception {
+        doReturn(new AlertResponse(AlertResponseType.ALERT_SEND))
+                .when(iAlertService).sendAlert(any());
 
         mockMvc.perform(
-                post("/users/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(SampleData.toJson(SampleData.getSampleDTO())))
-                .andDo(print())
-                .andExpect(status().isOk());
+                post("/alert")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(SampleData.toJson(SampleData.getSampleDTO()))
+        ).andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.type").value(AlertResponseType.ALERT_SEND.toString()))
+                .andExpect(jsonPath("$.payload").isEmpty());
+
     }
 }

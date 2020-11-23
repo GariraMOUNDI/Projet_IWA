@@ -8,6 +8,8 @@ public class SampleData {
 
     private static final ObjectMapper map = new ObjectMapper();
 
+    private static final AlertFactory alertFactory = new AlertFactory();
+
     public static AlertDTO getSampleDTO(){
         AlertDTO dto = new AlertDTO(
                 null,
@@ -17,6 +19,9 @@ public class SampleData {
         return dto;
     }
 
-    public static String toJson(UserDTO s) throws JsonProcessingException {
+    public static String toJson(AlertDTO s) throws JsonProcessingException {
         return map.writeValueAsString(s);
     }
+     public static Alert getSampleAlert(){
+            return alertFactory.createAlertModel(getSampleDTO());
+        }
