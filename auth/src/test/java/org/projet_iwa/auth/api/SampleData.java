@@ -11,6 +11,7 @@ public class SampleData {
 
     private static final UserFactory userFactory = new UserFactory();
 
+
     public static UserDTO getSampleDTO(){
         UserDTO dto = new UserDTO(
                 null,

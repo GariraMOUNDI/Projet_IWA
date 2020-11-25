@@ -41,10 +41,19 @@ public class UserController {
         return iUserService.forgotPassword(userDTO.getUsername());
     }
 
+
     @GetMapping("/changeStatus/{id}")
+    @RolesAllowed("user")
     public Response<?,?> changeStatus(@PathVariable Long id, @RequestParam String status){
         return iUserService.changeStatus(id, status);
     }
+
+    @GetMapping("/email/{id}")
+    @RolesAllowed("user")
+    public Response<?,?> getUserEmail(@PathVariable Long id){
+        return iUserService.getUserEmail(id);
+    }
+
 
 //    @GetMapping
 //    @RolesAllowed({"user"})

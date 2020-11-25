@@ -18,5 +18,6 @@ public enum UserResponseType {
     USER_CONFIRMED,
     FORGOT_EMAIL,
     EMAIL_EXIST,
-    STATUS_CHANGE
+    STATUS_CHANGE,
+    EMAIL_SEND
 }

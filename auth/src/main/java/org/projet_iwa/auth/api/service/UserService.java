@@ -121,4 +121,13 @@ public class UserService implements IUserService {
         return new UserResponse(UserResponseType.STATUS_CHANGE);
     }
 
+    @Override
+    public Response<?, ?> getUserEmail(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null)
+            return new UserResponse(UserResponseType.USER_NOT_EXIST);
+
+        return new Response<>(UserResponseType.EMAIL_SEND, user.getEmail());
+    }
+
 }

@@ -1,6 +1,8 @@
 package org.projet_iwa.auth.api;
 
 import org.junit.jupiter.api.Test;
+import org.projet_iwa.auth.api.config.KeycloakInit;
+import org.projet_iwa.auth.api.model.Response;
 import org.projet_iwa.auth.api.model.UserResponse;
 import org.projet_iwa.auth.api.model.UserResponseType;
 import org.projet_iwa.auth.api.service.IUserService;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +29,9 @@ public class UserControllerTest {
     @MockBean
     private IUserService iUserService;
 
+    @Autowired
+    private KeycloakInit keycloakInit;
+
     @Test
     public void createUser() throws Exception {
         doReturn(new UserResponse(UserResponseType.USER_CREATED))
@@ -40,6 +46,8 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.type").value(UserResponseType.USER_CREATED.toString()))
         .andExpect(jsonPath("$.payload").isEmpty());
     }
+
+    private String token;
 
     @Test
     public void loginUser() throws Exception {
@@ -85,6 +93,7 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.payload").isEmpty());
     }
 
+    // Enlever la sécurité (@RolesAllowed) dans le controlleur avant de tester
     @Test
     public void changeStatus() throws Exception {
         doReturn(new UserResponse(UserResponseType.STATUS_CHANGE))
@@ -96,5 +105,19 @@ public class UserControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.type").value(UserResponseType.STATUS_CHANGE.toString()))
                 .andExpect(jsonPath("$.payload").isEmpty());
+    }
+
+    // Enlever la sécurité (@RolesAllowed) dans le controlleur avant de tester
+    @Test
+    public void getEmail() throws Exception {
+        doReturn(new Response<>(UserResponseType.EMAIL_SEND, SampleData.getSampleDTO().getEmail()))
+                .when(iUserService).getUserEmail(any());
+
+        mockMvc.perform(
+                get("/users/email/15")
+        ).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.type").value(UserResponseType.EMAIL_SEND.toString()))
+                .andExpect(jsonPath("$.payload").value(SampleData.getSampleDTO().getEmail()));
     }
 }

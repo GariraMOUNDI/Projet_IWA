@@ -100,6 +100,18 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Change the status of the user")
+    public void getUserEmail(){
+        doReturn(Optional.of(SampleData.getSampleUser()))
+                .when(userRepository).findById(any());
+
+        Response<?,?> response = userService.getUserEmail(12L);
+
+        assertThat(response.getType()).isEqualTo(UserResponseType.EMAIL_SEND);
+        assertThat(response.getPayload()).isEqualTo(SampleData.getSampleUser().getEmail());
+    }
+
+    @Test
     @DisplayName("User already exist")
     public void createUserExist(){
         doReturn(true)
