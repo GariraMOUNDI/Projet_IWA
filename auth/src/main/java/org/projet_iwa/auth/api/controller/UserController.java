@@ -1,9 +1,6 @@
 package org.projet_iwa.auth.api.controller;
 
-import org.projet_iwa.auth.api.model.Response;
-import org.projet_iwa.auth.api.model.User;
-import org.projet_iwa.auth.api.model.UserDTO;
-import org.projet_iwa.auth.api.model.UserResponse;
+import org.projet_iwa.auth.api.model.*;
 import org.projet_iwa.auth.api.repository.UserRepository;
 import org.projet_iwa.auth.api.service.IUserService;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +41,10 @@ public class UserController {
         return iUserService.forgotPassword(userDTO.getUsername());
     }
 
+    @GetMapping("/changeStatus/{id}")
+    public Response<?,?> changeStatus(@PathVariable Long id, @RequestParam String status){
+        return iUserService.changeStatus(id, status);
+    }
 
 //    @GetMapping
 //    @RolesAllowed({"user"})

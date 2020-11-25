@@ -3,11 +3,7 @@ package org.projet_iwa.auth.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.keycloak.representations.AccessTokenResponse;
-import org.projet_iwa.auth.api.model.User;
-import org.projet_iwa.auth.api.model.UserDTO;
-import org.projet_iwa.auth.api.model.UserFactory;
-import org.projet_iwa.auth.api.model.VerificationToken;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.projet_iwa.auth.api.model.*;
 
 public class SampleData {
 
@@ -24,7 +20,8 @@ public class SampleData {
                 "parti",
                 "parti@gazert.com",
                 "1548697",
-                true
+                true,
+                "SAFE"
         );
         dto.setConfirm_pass("parti");
         AccessTokenResponse at = new AccessTokenResponse();

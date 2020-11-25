@@ -17,5 +17,6 @@ public enum UserResponseType {
     TOKEN_EXPIRED,
     USER_CONFIRMED,
     FORGOT_EMAIL,
-    EMAIL_EXIST
+    EMAIL_EXIST,
+    STATUS_CHANGE
 }

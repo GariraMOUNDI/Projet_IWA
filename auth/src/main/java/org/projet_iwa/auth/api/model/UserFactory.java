@@ -7,11 +7,13 @@ public class UserFactory{
 
     public User createUserModel(UserDTO userDTO){
         return new User(userDTO.getUser_id(), userDTO.getUsername(),userDTO.getFirst_name(), userDTO.getLast_name(),
-                userDTO.getPassword(), userDTO.getEmail(), userDTO.getPhone_number(), userDTO.isEnabled());
+                userDTO.getPassword(), userDTO.getEmail(), userDTO.getPhone_number(), userDTO.isEnabled(),
+                userDTO.getStatus());
     }
 
     public UserDTO createUserDTO(User user) {
         return new UserDTO(user.getUser_id(), user.getUsername(),user.getFirst_name(), user.getLast_name(),
-                user.getPassword(), user.getEmail(), user.getPhone_number(), user.isEnabled());
+                user.getPassword(), user.getEmail(), user.getPhone_number(), user.isEnabled(),
+                user.getStatus());
     }
 }

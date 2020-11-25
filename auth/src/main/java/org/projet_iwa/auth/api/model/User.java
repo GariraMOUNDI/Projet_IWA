@@ -16,9 +16,11 @@ public class User {
     private String username, first_name, last_name, password, email, phone_number;
 
     private boolean enabled;
+    private String status;
 
     public User(Long user_id, String username, String first_name, String last_name,
-                String password, String email, String phone_number, boolean enabled) {
+                String password, String email, String phone_number, boolean enabled,
+                String status) {
         this.user_id = user_id;
         this.username = username;
         this.first_name = first_name;
@@ -27,6 +29,7 @@ public class User {
         this.email = email;
         this.phone_number = phone_number;
         this.enabled = enabled;
+        this.status = status;
     }
 
     public User() {}
@@ -101,4 +104,11 @@ public class User {
     }
 
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

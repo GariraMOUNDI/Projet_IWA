@@ -88,6 +88,18 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Change the status of the user")
+    public void changeStatus(){
+        doReturn(Optional.of(SampleData.getSampleUser()))
+                .when(userRepository).findById(any());
+
+        UserResponse response = userService.changeStatus(SampleData.getSampleDTO().getUser_id(), "SAFE");
+
+        assertThat(response.getType()).isEqualTo(UserResponseType.STATUS_CHANGE);
+        assertThat(response.getPayload()).isNull();
+    }
+
+    @Test
     @DisplayName("User already exist")
     public void createUserExist(){
         doReturn(true)

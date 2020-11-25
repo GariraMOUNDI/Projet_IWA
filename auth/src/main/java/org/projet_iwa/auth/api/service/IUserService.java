@@ -10,4 +10,5 @@ public interface IUserService {
     Response<?, ?>loginUser(String username, String password);
     Response<?, ?> confirmUser(String token);
     Response<?, ?> forgotPassword(String username);
+    Response<?,?> changeStatus(Long id, String status);
 }

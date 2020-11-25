@@ -84,4 +84,17 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.type").value(UserResponseType.FORGOT_EMAIL.toString()))
         .andExpect(jsonPath("$.payload").isEmpty());
     }
+
+    @Test
+    public void changeStatus() throws Exception {
+        doReturn(new UserResponse(UserResponseType.STATUS_CHANGE))
+                .when(iUserService).changeStatus(any(), any());
+
+        mockMvc.perform(
+                get("/users/changeStatus/15?status=CONTACT")
+        ).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.type").value(UserResponseType.STATUS_CHANGE.toString()))
+                .andExpect(jsonPath("$.payload").isEmpty());
+    }
 }

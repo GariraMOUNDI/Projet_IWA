@@ -12,9 +12,11 @@ public class UserDTO {
     private String email;
     private String phone_number;
     private boolean enabled;
+    private String status;
     private AccessTokenResponse token;
 
-    public UserDTO(Long user_id, String username, String first_name, String last_name, String password, String email, String phone_number, boolean enabled) {
+    public UserDTO(Long user_id, String username, String first_name, String last_name,
+                String password, String email, String phone_number, boolean enabled, String status) {
         this.user_id = user_id;
         this.username = username;
         this.first_name = first_name;
@@ -23,6 +25,7 @@ public class UserDTO {
         this.email = email;
         this.phone_number = phone_number;
         this.enabled = enabled;
+        this.status = status;
     }
 
     // Only for test
@@ -131,6 +134,13 @@ public class UserDTO {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

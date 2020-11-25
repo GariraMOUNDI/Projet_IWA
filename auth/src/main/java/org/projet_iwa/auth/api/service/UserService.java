@@ -5,7 +5,6 @@ import org.projet_iwa.auth.api.model.*;
 import org.projet_iwa.auth.api.repository.UserRepository;
 import org.projet_iwa.auth.api.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -109,6 +108,17 @@ public class UserService implements IUserService {
         userRepository.saveAndFlush(user);
         mailUtil.sendForgotEmail(dto, token);
         return new UserResponse(UserResponseType.FORGOT_EMAIL);
+    }
+
+    @Override
+    public UserResponse changeStatus(Long id, String status) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null)
+            return new UserResponse(UserResponseType.USER_NOT_EXIST);
+
+        user.setStatus(status);
+        userRepository.save(user);
+        return new UserResponse(UserResponseType.STATUS_CHANGE);
     }
 
 }
