@@ -24,7 +24,7 @@ public class MailUtil implements IMailSender{
 
         if(confirm){
             subject = "User account Confirmation";
-            url = serverUrl+"users/confirmUser?token="+token;
+            url = serverUrl+"/confirmUser?token="+token;
             message = "Please confirm your account to login the App :"+"\r\n"+url;
         }else{
             subject = "Reset account password ";
