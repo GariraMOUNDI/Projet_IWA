@@ -18,7 +18,7 @@
      public static String toJson(Response response) throws JsonProcessingException {
             return map.writeValueAsString(response);
         }
-    public static Alert getSampleAlert(){
+    public static Alert getSampleReponse(){
                 return getSampleDTO();
             }
  }

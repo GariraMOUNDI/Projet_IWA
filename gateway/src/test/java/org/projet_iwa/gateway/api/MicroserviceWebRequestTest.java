@@ -18,12 +18,12 @@ public class MicroserviceWebRequestTest {
     public void createUser() {
         Response response = microserviceWebRequest.createUser(SampleData.getSampleDTO());
         assertThat("?").isEqualTo(response.getType());
-        assertThat(response.getPayload()).isNull();
+        assertThat(response.getPayload()).isEqualTo(response.getType());
     }
     public void sendLocation() {
         Response response = microserviceWebRequest.sendLocation(SampleData.getSampleDTO());
         assertThat("?").isEqualTo(response.getType());
-        assertThat(response.getPayload()).isNull();
+        assertThat(response.getPayload()).isEqualTo(response.getType());
     }
 
 }

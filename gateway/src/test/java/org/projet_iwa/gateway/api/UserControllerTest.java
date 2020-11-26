@@ -28,7 +28,7 @@ public class UserControllerTest {
                 .when(microserviceWebRequest).createUser(any());
 
         mockMvc.perform(
-                post("/location")
+                post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(SampleData.toJson(SampleData.getSampleDTO()))
         ).andExpect(status().isCreated())
