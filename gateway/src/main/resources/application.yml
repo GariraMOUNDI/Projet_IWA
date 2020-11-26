@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:5000}
+  user-url : ${user_url}
+  location-url : ${location_url}
+
+keycloak:
+  auth-server-url: ${keycloak_server}
+  realm: ${keycloak_realm}
+  resource: ${keycloak_client}
+  credentials:
+    secret: ${keycloak_client_secret}
+  public-client: true
+  ssl-required: external
+  confidential-port: 0
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true

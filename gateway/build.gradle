@@ -1,0 +1,52 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'org.projet_iwa'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+def keycloak_version = '11.0.2'
+
+dependencies{
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+//    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.hibernate:hibernate-core"
+//    implementation 'junit:junit:4.12'
+//    runtimeOnly "org.postgresql:postgresql"
+
+    implementation "org.keycloak:keycloak-spring-boot-starter:" + keycloak_version
+    implementation "org.keycloak:keycloak-spring-security-adapter:" + keycloak_version
+    implementation "org.keycloak:keycloak-admin-client:" + keycloak_version
+
+//    implementation "commons-codec:commons-codec"
+//
+//    implementation "org.springframework.boot:spring-boot-starter-mail"
+
+    testImplementation "org.springframework.security:spring-security-test"
+    testImplementation "org.hamcrest:hamcrest-library"
+    testImplementation "com.jayway.jsonpath:json-path"
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind"
+    testImplementation("org.springframework.boot:spring-boot-starter-test" ) {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test.enabled = false
+
+test {
+    useJUnitPlatform()
+}
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
