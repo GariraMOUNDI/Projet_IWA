@@ -1,10 +1,12 @@
 package org.projet_iwa.location.api.service;
 
+import org.projet_iwa.location.api.config.KafkaConsumerConfig;
 import org.projet_iwa.location.api.model.*;
 import org.projet_iwa.location.api.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.MessagingException;
@@ -23,7 +25,7 @@ public class LocationService implements ILocationService{
     private List<LocationDTO> recentLocations;
 
     @Autowired
-    private KafkaTemplate<String, LocationDTO> kafkaTemplate;
+    private KafkaTemplate<String, LocationDTO> kafkaLocationTemplate;
 
     @Autowired
     private KafkaTemplate<String, ClusterDTO> kafkaClusterTemplate;
@@ -63,7 +65,7 @@ public class LocationService implements ILocationService{
     @Override
     public LocationResponse sendLocation(LocationDTO locationDTO) {
 
-        this.kafkaTemplate.send(location_topic, locationDTO);
+        this.kafkaLocationTemplate.send(location_topic, locationDTO);
 
         if (locationDTO.getUser_status() == UserStatus.COVID) {
             // Consume Clusters ...
@@ -72,15 +74,16 @@ public class LocationService implements ILocationService{
         return new LocationResponse(LocationResponseType.LOCATION_SEND);
     }
 
+
     // Location Consumer
 
-    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
-    public void processMessage(@Payload LocationDTO locationDTO,
-                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
-                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
-                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-        recentLocations.add(locationDTO);
-    }
+//    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
+//    public void processMessage(@Payload LocationDTO locationDTO,
+//                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+//                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
+//                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
+//        recentLocations.add(locationDTO);
+//    }
 
     // Cluster Producer
 
@@ -92,13 +95,14 @@ public class LocationService implements ILocationService{
 
     // Cluster Consumer
 
-    @KafkaListener(topics = "#{'${covid-alert.cluster-topic}'}")
-    public void processMessage(@Payload ClusterDTO clusterDTO,
-                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
-                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
-                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-        // ?
-    }
+//    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
+//    public void processMessage(@Payload LocationDTO locationDTO,
+//                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+//                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
+//                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
+//        // ?
+//        System.out.println("Consume!!!");
+//    }
 
     // Alert Producer
 
@@ -108,4 +112,48 @@ public class LocationService implements ILocationService{
 
     }
 
+    // Simple way to threat location
+
+    @Autowired
+    private KafkaListenerEndpointRegistry registry;
+
+    @Override
+    public Response<?, ?> threatLocation(LocationDTO locationDTO) {
+        if(locationDTO.getUser_status() == UserStatus.SAFE ){
+            kafkaLocationTemplate.send(location_topic, locationDTO);
+            return new LocationResponse(LocationResponseType.LOCATION_SEND);
+        }
+
+        if(locationDTO.getUser_status() == UserStatus.CONTACT){
+            Location location = locationFactory.createLocationModel(locationDTO);
+            locationRepository.save(location);
+            kafkaLocationTemplate.send(location_topic, locationDTO);
+            return new LocationResponse(LocationResponseType.LOCATION_SEND);
+        }
+
+        if(locationDTO.getUser_status() == UserStatus.COVID){
+            Location location = locationFactory.createLocationModel(locationDTO);
+            locationRepository.save(location);
+            KafkaConsumerConfig.setCurrentLocation(locationDTO.getLatitude(), locationDTO.getLongitude());
+            registry.getListenerContainer("jip6qp3z-consumers").start();
+            return new LocationResponse(LocationResponseType.LOCATION_SEND);
+        }
+
+        return null;
+    }
+
+    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
+    @KafkaListener(
+            id = "jip6qp3z-consumers",
+            topics = "#{'${covid-alert.location-topic}'}",
+            containerFactory = "filterKafkaListenerContainerFactoryByDate",
+            autoStartup = "false")
+    public void threatMessage(@Payload LocationDTO locationDTO,
+                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
+                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
+        System.out.println(locationDTO.getDate());
+        System.out.println("Consumeeee!!!!");
+
+    }
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ILocationService {
     Response<?,?> sendLocation(LocationDTO locationDTO);
+    Response<?,?> threatLocation(LocationDTO locationDTO);
 }

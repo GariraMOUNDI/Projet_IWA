@@ -10,14 +10,15 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String location_id;
+    private Long location_id;
+
     private Long latitude;
     private Long longitude;
-    private String user_id;
+    private Long user_id;
     private UserStatus user_status;
     private Timestamp date;
 
-    public Location(String location_id, Long latitude, Long longitude, String user_id, UserStatus user_status, Timestamp date) {
+    public Location(Long location_id, Long latitude, Long longitude, Long user_id, UserStatus user_status, Timestamp date) {
         this.location_id = location_id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -27,11 +28,11 @@ public class Location {
     }
     public Location(){}
 
-    public String getLocation_id() {
+    public Long getLocation_id() {
         return location_id;
     }
 
-    public void setLocation_id(String idLocation) {
+    public void setLocation_id(Long idLocation) {
         this.location_id = idLocation;
     }
 
@@ -51,11 +52,11 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public String getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String idUser) {
+    public void setUser_id(Long idUser) {
         this.user_id = idUser;
     }
 

@@ -19,32 +19,32 @@ public class DetectionRunnerThread extends TimerTask {
 
     public void run() {
 
-        // Deleting locations older than the maximum interval
-
-        if (recentLocations.size()>0) {
-            Timestamp latestDate = recentLocations.get(recentLocations.size()-1).getDate();
-            Timestamp maximumDate = new Timestamp(latestDate.getTime()-maximumInterval);
-
-            boolean isAnOldLocation = true;
-            while (isAnOldLocation && recentLocations.size() > 1) {
-                if (recentLocations.get(0).getDate().after(maximumDate)) {
-                    isAnOldLocation = false;
-                } else {
-                    recentLocations.remove(0);
-                }
-            }
-        }
-
-        // Copying the array and creating the detection thread
-
-        if (recentLocations.size() > 1) {
-
-            List<LocationDTO> locationToDetect = new ArrayList<>(recentLocations);
-
-            DetectionThread detection = new DetectionThread(locationToDetect, maximumInterval);
-            Thread detectionThread = new Thread(detection);
-            detectionThread.start();
-        }
+//        // Deleting locations older than the maximum interval
+//
+//        if (recentLocations.size()>0) {
+//            Timestamp latestDate = recentLocations.get(recentLocations.size()-1).getDate();
+//            Timestamp maximumDate = new Timestamp(latestDate.getTime()-maximumInterval);
+//
+//            boolean isAnOldLocation = true;
+//            while (isAnOldLocation && recentLocations.size() > 1) {
+//                if (recentLocations.get(0).getDate().after(maximumDate)) {
+//                    isAnOldLocation = false;
+//                } else {
+//                    recentLocations.remove(0);
+//                }
+//            }
+//        }
+//
+//        // Copying the array and creating the detection thread
+//
+//        if (recentLocations.size() > 1) {
+//
+//            List<LocationDTO> locationToDetect = new ArrayList<>(recentLocations);
+//
+//            DetectionThread detection = new DetectionThread(locationToDetect, maximumInterval);
+//            Thread detectionThread = new Thread(detection);
+//            detectionThread.start();
+//        }
 
     }
 

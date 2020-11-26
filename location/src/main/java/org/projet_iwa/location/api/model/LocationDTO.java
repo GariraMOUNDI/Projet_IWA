@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 
 public class LocationDTO {
 
-    private String location_id;
+    private Long location_id;
     private Long latitude;
     private Long longitude;
-    private String user_id;
+    private Long user_id;
     private UserStatus user_status;
     private Timestamp date;
 
-    public LocationDTO(String location_id, Long latitude, Long longitude, String user_id, UserStatus user_status, Timestamp date) {
+    public LocationDTO(Long location_id, Long latitude, Long longitude, Long user_id, UserStatus user_status, Timestamp date) {
         this.location_id = location_id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -20,12 +20,13 @@ public class LocationDTO {
         this.date = date;
     }
 
+    public LocationDTO(){}
 
-    public String getLocation_id() {
+    public Long getLocation_id() {
         return location_id;
     }
 
-    public void setLocation_id(String location_id) {
+    public void setLocation_id(Long location_id) {
         this.location_id = location_id;
     }
 
@@ -45,11 +46,11 @@ public class LocationDTO {
         this.longitude = longitude;
     }
 
-    public String getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
