@@ -18,7 +18,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/create",
                         HttpMethod.POST,
                         new HttpEntity<>(body, headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 
@@ -29,7 +29,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/login",
                         HttpMethod.POST,
                         new HttpEntity<>(body, headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 
@@ -40,7 +40,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/confirmUser?token="+token,
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 
@@ -52,7 +52,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/forgotUser",
                         HttpMethod.POST,
                         new HttpEntity<>(body, headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 
@@ -64,7 +64,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/changeStatus/"+ id +"?status="+ status,
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 
