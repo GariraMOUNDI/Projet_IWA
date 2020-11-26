@@ -11,6 +11,7 @@ import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/location")
+@CrossOrigin
 public class LocationController {
 
     @Autowired

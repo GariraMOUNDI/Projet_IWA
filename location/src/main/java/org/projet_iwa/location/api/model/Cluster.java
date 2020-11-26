@@ -24,6 +24,8 @@ public class Cluster {
         this.idUsers = idUsers;
     }
 
+    public Cluster() {}
+
     public String getIdCluster() {
         return idCluster;
     }
@@ -74,7 +76,7 @@ public class Cluster {
 
             while (found < idUsers.length && givenUsersCounter < idUsers.length) {
 
-                if ((!alreadyIn[givenUsersCounter]) && (this.idUsers[clusterUsersCounter] == idUsers[givenUsersCounter])) {
+                if ((!alreadyIn[givenUsersCounter]) && (this.idUsers[clusterUsersCounter].equals(idUsers[givenUsersCounter]))) {
                     found += 1;
                     alreadyIn[givenUsersCounter] = true;
                 }

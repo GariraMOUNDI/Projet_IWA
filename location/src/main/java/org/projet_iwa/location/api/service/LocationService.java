@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 @Service
 public class LocationService implements ILocationService{
 
-    @Autowired
-    private List<LocationDTO> recentLocations = new ArrayList<>();
+    private List<LocationDTO> recentLocations;
 
     @Autowired
     private KafkaTemplate<String, LocationDTO> kafkaTemplate;
@@ -50,6 +50,14 @@ public class LocationService implements ILocationService{
     @Value("${covid-alert.alert-topic}")
     private String alert_topic;
 
+    LocationService() {
+        this.recentLocations = new ArrayList<>();
+
+        Timer timer = new Timer("DetectionRunnerThreadTimer");
+        DetectionRunnerThread task = new DetectionRunnerThread(this.recentLocations,120000);
+        timer.schedule(task, 60000);
+    }
+
     // Location Producer
 
     @Override
@@ -57,7 +65,7 @@ public class LocationService implements ILocationService{
 
         this.kafkaTemplate.send(location_topic, locationDTO);
 
-        if (locationDTO.getCovidStatus()) {
+        if (locationDTO.getUserStatus() == UserStatus.COVID) {
             // Consume Clusters ...
         }
 
@@ -72,7 +80,6 @@ public class LocationService implements ILocationService{
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
         recentLocations.add(locationDTO);
-        // kc.poll()
     }
 
     // Cluster Producer

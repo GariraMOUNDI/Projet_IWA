@@ -56,4 +56,29 @@ public class ClusterDTO {
     public void setIdUsers(String[] idUsers) {
         this.idUsers = idUsers;
     }
+
+    public boolean containsEach(String[] idUsers) {
+        boolean[] alreadyIn = new boolean[idUsers.length];
+        int found = 0;
+        int givenUsersCounter = 0;
+        int clusterUsersCounter = 0;
+
+        while (found < idUsers.length && clusterUsersCounter < this.idUsers.length) {
+
+            while (found < idUsers.length && givenUsersCounter < idUsers.length) {
+
+                if ((!alreadyIn[givenUsersCounter]) && (this.idUsers[clusterUsersCounter].equals(idUsers[givenUsersCounter]))) {
+                    found += 1;
+                    alreadyIn[givenUsersCounter] = true;
+                }
+
+                givenUsersCounter += 1;
+            }
+
+            givenUsersCounter = 0;
+            clusterUsersCounter += 1;
+        }
+
+        return found == idUsers.length;
+    }
 }

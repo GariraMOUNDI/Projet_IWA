@@ -7,17 +7,17 @@ public class LocationDTO {
     private String idLocation;
     private Long latitude;
     private Long longitude;
-    private Long altitude;
     private String idUser;
+    private UserStatus userStatus;
     private Timestamp date;
-    private Boolean covidStatus;
 
-    public LocationDTO(String idLocation, Long latitude, Long longitude, Long altitude, Boolean covidStatus) {
+    public LocationDTO(String idLocation, Long latitude, Long longitude, String idUser, UserStatus userStatus, Timestamp date) {
         this.idLocation = idLocation;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.altitude = altitude;
-        this.covidStatus = covidStatus;
+        this.idUser = idUser;
+        this.userStatus = userStatus;
+        this.date = date;
     }
 
 
@@ -45,14 +45,6 @@ public class LocationDTO {
         this.longitude = longitude;
     }
 
-    public Long getAltitude() {
-        return altitude;
-    }
-
-    public void setAltitude(Long altitude) {
-        this.altitude = altitude;
-    }
-
     public String getIdUser() {
         return idUser;
     }
@@ -61,19 +53,19 @@ public class LocationDTO {
         this.idUser = idUser;
     }
 
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
     public Timestamp getDate() {
         return date;
     }
 
     public void setDate(Timestamp date) {
         this.date = date;
-    }
-
-    public Boolean getCovidStatus() {
-        return covidStatus;
-    }
-
-    public void setCovidStatus(Boolean covidStatus) {
-        this.covidStatus = covidStatus;
     }
 }

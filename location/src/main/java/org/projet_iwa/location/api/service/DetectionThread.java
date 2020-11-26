@@ -1,8 +1,9 @@
 package org.projet_iwa.location.api.service;
 
-import org.projet_iwa.location.api.model.Cluster;
-import org.projet_iwa.location.api.model.Location;
+import org.projet_iwa.location.api.model.ClusterDTO;
+import org.projet_iwa.location.api.model.LocationDTO;
 import org.projet_iwa.location.api.service.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -10,12 +11,15 @@ import java.util.List;
 
 public class DetectionThread implements Runnable {
 
-    private List<Location> locations;
+    @Autowired
+    private LocationService locationService;
+
+    private List<LocationDTO> locations;
     private final int locationsCount;
     private final Timestamp middleOfInterval;
     private static final double warningDistance = 2 ; // in meters
 
-    DetectionThread(List<Location> locations, long maximumInterval) {
+    DetectionThread(List<LocationDTO> locations, long maximumInterval) {
         long latestDate = locations.get(-1).getDate().getTime();
 
         this.locations = locations;
@@ -45,12 +49,12 @@ public class DetectionThread implements Runnable {
         int abscissa = 1; // Because (0,0) would be null
         int ordinate = 0;
         double currentDistance = 0;
-        Location abscissaLocation;
-        Location ordinateLocation;
+        LocationDTO abscissaLocation;
+        LocationDTO ordinateLocation;
 
         // Cluster variables
-        List<Location> preCluster= new ArrayList<>(); // Raw locations without processed data
-        List<Cluster> clusters = new ArrayList<>(); // Average data compute only after succeeding tests
+        List<LocationDTO> preCluster= new ArrayList<>(); // Raw locations without processed data
+        List<ClusterDTO> clusters = new ArrayList<>(); // Average data compute only after succeeding tests
             // Time test
         boolean hasNewLocation = false;
             // Redundancy Test
@@ -101,7 +105,7 @@ public class DetectionThread implements Runnable {
                 if (hasNewLocation) {
 
                     // Retrieving potential user list
-                    for (Location location : locations) {
+                    for (LocationDTO location : locations) {
                         preUserList.add(location.getIdUser());
                     }
                     userList = preUserList.toArray(new String[preUserList.size()]);
@@ -117,11 +121,11 @@ public class DetectionThread implements Runnable {
                     // Creating the new cluster and adding it to the cluster list
                     if (isNewCluster) {
                         approximateDate = preCluster.get(preCluster.size()/2).getDate();
-                        for (Location location : locations) {
+                        for (LocationDTO location : locations) {
                             preLatitudeList.add(location.getLatitude());
                             preLongitudeList.add(location.getLongitude());
                         }
-                        clusters.add(new Cluster(average(preLatitudeList), average(preLongitudeList), approximateDate, userList));
+                        clusters.add(new ClusterDTO(average(preLatitudeList), average(preLongitudeList), approximateDate, userList));
                     }
 
                 }
@@ -138,8 +142,8 @@ public class DetectionThread implements Runnable {
 
 
         // Producing event for each cluster and sending them to Kafka
-        for (Cluster cluster : clusters) {
-            sendCluster(cluster);
+        for (ClusterDTO cluster : clusters) {
+            locationService.sendCluster(cluster);
         }
 
     }

@@ -1,6 +1,6 @@
 package org.projet_iwa.location.api.service;
 
-import org.projet_iwa.location.api.model.Location;
+import org.projet_iwa.location.api.model.LocationDTO;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.TimerTask;
 
 public class DetectionRunnerThread extends TimerTask {
 
-    private List<Location> recentLocations;
+    private List<LocationDTO> recentLocations;
     private long maximumInterval;
 
-    DetectionRunnerThread(List<Location> recentLocations, long maximumInterval) {
+    DetectionRunnerThread(List<LocationDTO> recentLocations, long maximumInterval) {
         this.recentLocations = recentLocations;
         this.maximumInterval = maximumInterval;
     }
@@ -21,7 +21,7 @@ public class DetectionRunnerThread extends TimerTask {
 
         // Deleting locations older than the maximum interval
 
-        Timestamp latestDate = recentLocations.get(-1).getDate();
+        Timestamp latestDate = recentLocations.get(recentLocations.size()-1).getDate();
         Timestamp maximumDate = new Timestamp(latestDate.getTime()-maximumInterval);
 
         boolean isAnOldLocation = true;
@@ -38,7 +38,7 @@ public class DetectionRunnerThread extends TimerTask {
 
         if (recentLocations.size() > 1) {
 
-            List<Location> locationToDetect = new ArrayList<>(recentLocations);
+            List<LocationDTO> locationToDetect = new ArrayList<>(recentLocations);
 
             DetectionThread detection = new DetectionThread(locationToDetect, maximumInterval);
             Thread detectionThread = new Thread(detection);
