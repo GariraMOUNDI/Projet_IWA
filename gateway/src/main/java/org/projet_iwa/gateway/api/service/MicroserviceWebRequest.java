@@ -76,7 +76,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                 .exchange("/email/"+ id,
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
 }
