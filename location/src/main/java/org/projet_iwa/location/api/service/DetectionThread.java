@@ -20,7 +20,7 @@ public class DetectionThread implements Runnable {
     private static final double warningDistance = 2 ; // in meters
 
     DetectionThread(List<LocationDTO> locations, long maximumInterval) {
-        long latestDate = locations.get(-1).getDate().getTime();
+        long latestDate = locations.get(locations.size()-1).getDate().getTime();
 
         this.locations = locations;
         this.locationsCount = locations.size();
@@ -97,7 +97,7 @@ public class DetectionThread implements Runnable {
             if (preCluster.size() > 1) {
 
                 // Test 1 : Since threads are overlapping, the potential cluster must add some new information
-                hasNewLocation = preCluster.get(-1).getDate().after(middleOfInterval);
+                hasNewLocation = preCluster.get(locationsCount-1).getDate().after(middleOfInterval);
 
                 // Test 2 : Redundancy must be avoided to increase performance of further treatment
                 //          Thanks to the triangular matrix, same clusters cannot be computed twice
@@ -106,7 +106,7 @@ public class DetectionThread implements Runnable {
 
                     // Retrieving potential user list
                     for (LocationDTO location : locations) {
-                        preUserList.add(location.getIdUser());
+                        preUserList.add(location.getUser_id());
                     }
                     userList = preUserList.toArray(new String[preUserList.size()]);
 

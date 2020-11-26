@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class LocationFactory {
 
     public Location createLocationModel(LocationDTO locationDTO){
-        return new Location(locationDTO.getIdLocation(), locationDTO.getLatitude(), locationDTO.getLongitude(), locationDTO.getIdUser(), locationDTO.getUserStatus(), locationDTO.getDate());
+        return new Location(locationDTO.getLocation_id(), locationDTO.getLatitude(), locationDTO.getLongitude(), locationDTO.getUser_id(), locationDTO.getUser_status(), locationDTO.getDate());
     }
 }

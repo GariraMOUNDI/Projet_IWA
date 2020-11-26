@@ -65,7 +65,7 @@ public class LocationService implements ILocationService{
 
         this.kafkaTemplate.send(location_topic, locationDTO);
 
-        if (locationDTO.getUserStatus() == UserStatus.COVID) {
+        if (locationDTO.getUser_status() == UserStatus.COVID) {
             // Consume Clusters ...
         }
 

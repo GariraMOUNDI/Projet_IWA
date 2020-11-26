@@ -4,29 +4,29 @@ import java.sql.Timestamp;
 
 public class LocationDTO {
 
-    private String idLocation;
+    private String location_id;
     private Long latitude;
     private Long longitude;
-    private String idUser;
-    private UserStatus userStatus;
+    private String user_id;
+    private UserStatus user_status;
     private Timestamp date;
 
-    public LocationDTO(String idLocation, Long latitude, Long longitude, String idUser, UserStatus userStatus, Timestamp date) {
-        this.idLocation = idLocation;
+    public LocationDTO(String location_id, Long latitude, Long longitude, String user_id, UserStatus user_status, Timestamp date) {
+        this.location_id = location_id;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.idUser = idUser;
-        this.userStatus = userStatus;
+        this.user_id = user_id;
+        this.user_status = user_status;
         this.date = date;
     }
 
 
-    public String getIdLocation() {
-        return idLocation;
+    public String getLocation_id() {
+        return location_id;
     }
 
-    public void setIdLocation(String idLocation) {
-        this.idLocation = idLocation;
+    public void setLocation_id(String location_id) {
+        this.location_id = location_id;
     }
 
     public Long getLatitude() {
@@ -45,20 +45,20 @@ public class LocationDTO {
         this.longitude = longitude;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public UserStatus getUser_status() {
+        return user_status;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
+    public void setUser_status(UserStatus user_status) {
+        this.user_status = user_status;
     }
 
     public Timestamp getDate() {

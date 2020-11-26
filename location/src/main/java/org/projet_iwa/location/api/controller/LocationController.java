@@ -18,7 +18,7 @@ public class LocationController {
     private ILocationService iLocationService;
 
     @PostMapping
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response<?,?> sendLocation(@RequestBody LocationDTO locationDTO){
         return iLocationService.sendLocation(locationDTO);
     }

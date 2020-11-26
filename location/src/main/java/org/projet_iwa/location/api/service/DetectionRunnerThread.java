@@ -21,16 +21,17 @@ public class DetectionRunnerThread extends TimerTask {
 
         // Deleting locations older than the maximum interval
 
-        Timestamp latestDate = recentLocations.get(recentLocations.size()-1).getDate();
-        Timestamp maximumDate = new Timestamp(latestDate.getTime()-maximumInterval);
+        if (recentLocations.size()>0) {
+            Timestamp latestDate = recentLocations.get(recentLocations.size()-1).getDate();
+            Timestamp maximumDate = new Timestamp(latestDate.getTime()-maximumInterval);
 
-        boolean isAnOldLocation = true;
-        while (isAnOldLocation && recentLocations.size() > 1) {
-            if (recentLocations.get(0).getDate().after(maximumDate)) {
-                isAnOldLocation = false;
-            }
-            else {
-                recentLocations.remove(0);
+            boolean isAnOldLocation = true;
+            while (isAnOldLocation && recentLocations.size() > 1) {
+                if (recentLocations.get(0).getDate().after(maximumDate)) {
+                    isAnOldLocation = false;
+                } else {
+                    recentLocations.remove(0);
+                }
             }
         }
 
