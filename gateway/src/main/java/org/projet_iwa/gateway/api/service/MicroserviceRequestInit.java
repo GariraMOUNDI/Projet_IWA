@@ -1,5 +1,6 @@
 package org.projet_iwa.gateway.api.service;
 
+import org.projet_iwa.gateway.api.model.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
@@ -36,4 +37,5 @@ public class MicroserviceRequestInit {
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
                 .build();
     }
+
 }

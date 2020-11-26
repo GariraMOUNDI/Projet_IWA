@@ -79,4 +79,15 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
                         new ParameterizedTypeReference<Response<?,?>>() {});
         return response.getBody();
     }
+
+    public Response<?,?> sendLocation(String body, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithAuthentication(token)
+                .exchange("/",
+                        HttpMethod.POST,
+                        new HttpEntity<>(body, headers),
+                        new ParameterizedTypeReference<Response<?,?>>() {});
+        return response.getBody();
+    }
 }
