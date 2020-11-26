@@ -22,6 +22,7 @@ public class SampleData {
     public static String toJson(AlertDTO s) throws JsonProcessingException {
         return map.writeValueAsString(s);
     }
-     public static Alert getSampleAlert(){
+
+    public static Alert getSampleAlert(){
             return alertFactory.createAlertModel(getSampleDTO());
         }

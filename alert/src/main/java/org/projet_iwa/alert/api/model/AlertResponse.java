@@ -6,7 +6,4 @@ public class AlertResponse extends Response<AlertResponseType, AlertDTO> {
         super(alertResponseType, null);
     }
 
-//    public AlertResponse(AlertResponseType alertResponseType, AlertDTO alertDTO){
-//        super(alertResponseType, alertDTO);
-//    }
 }

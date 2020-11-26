@@ -2,25 +2,17 @@ package org.projet_iwa.alert.api.model;
 
 public class AlertDTO {
 
-    private Long alert_id;
     private Long location_id;
-    private String email;
+    private Long user_id;
+    private String user_token;
 
-    public AlertDTO(Long alert_id, Long location_id, String email) {
-        this.alert_id = alert_id;
+    public AlertDTO(Long location_id, Long user_id, String user_token) {
         this.location_id = location_id;
-        this.email = email;
+        this.user_id = user_id;
+        this.user_token = user_token;
     }
 
     public AlertDTO() {}
-
-    public Long getAlert_id() {
-        return alert_id;
-    }
-
-    public void setAlert_id(Long alert_id) {
-        this.alert_id = alert_id;
-    }
 
     public Long getLocation_id() {
         return location_id;
@@ -30,11 +22,19 @@ public class AlertDTO {
         this.location_id = location_id;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_token() {
+        return user_token;
+    }
+
+    public void setUser_token(String user_token) {
+        this.user_token = user_token;
     }
 }

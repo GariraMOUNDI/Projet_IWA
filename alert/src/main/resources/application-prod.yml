@@ -1,5 +1,6 @@
 server:
-  port: ${PORT}
+  port: ${PORT:9000}
+  user-url-email : ${user_url_email}
 
 spring:
   kafka:
@@ -30,7 +31,3 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
-
-logging:
-  level:
-    org.springframework.security: DEBUG
