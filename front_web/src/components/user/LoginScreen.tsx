@@ -1,13 +1,21 @@
 import { Box, Form, FormField, TextInput, Button, Heading, Anchor } from 'grommet';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { login } from '../../state/user';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { loggedIn, login } from '../../state/user';
 
 export default () => {
     const [ username, setUsername ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
     const dispatch = useDispatch();
+
+    const history = useHistory();
+    const connected = useSelector( loggedIn );
+
+    useEffect( () => {
+        if ( connected )
+            history.push( "/" );
+    }, [ connected ] );
 
     return (
         <Box animation={{ type: "slideLeft", duration: 300 }

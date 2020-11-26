@@ -12,11 +12,11 @@ export default () => {
 
     return (
         <Box>
-            {( inProgressUser || inProgressLocation ) && <Layer
+            {( inProgressLocation || inProgressUser ) && <Layer
                 animation="slide"
                 position="top"
                 plain>
-                <Box pad={{horizontal: "xlarge", vertical: 'small'}} background="brand2" round margin={{ vertical: "xlarge" }} elevation="large">
+                <Box pad={{ horizontal: "xlarge", vertical: 'small' }} background="brand2" round margin={{ vertical: "xlarge" }} elevation="large">
                     <Text size="medium">Loading</Text>
                 </Box>
             </Layer>

@@ -16,7 +16,7 @@ export default () => {
                 onEsc={() => dispatch( removeError() )}
                 onClickOutside={() => dispatch( removeError() )}
             >
-                <Box pad="medium" background="status-error" round="xsmall">
+                <Box pad="medium" background="status-error">
                     <Text>{getErrorMsg( errorType )}</Text>
                 </Box>
             </Layer>}

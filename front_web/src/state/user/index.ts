@@ -1,21 +1,21 @@
 import { createAsyncThunk, createSlice, } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { User, UserState, UserSuccessTypes } from './types';
-import apiconfig from '../../apiconfig';
-import { isFulfilledAction, isPendingAction, isRejectedAction } from '../../globals';
+import { Token, User, UserState, UserSuccessTypes } from './types';
+import appconfig from '../../appconfig';
+import { isFulfilledAction, isPendingAction, isRejectedAction, loadUser, removeSavedUser, saveUser, Status } from '../../globals';
 import { RootState } from '../store';
-
+axios.interceptors.request.use( req => { console.log( req ); return req; } );
 //////////////////////////////////////////////////////////////
 // ACTIONS
 export const login = createAsyncThunk<{ user: User, confirmed: boolean; success: UserSuccessTypes; }, { username: string; password: string; }>( 'user/login',
     async ( { username, password }, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.authUrl }/users/login`,
+        const response = await axios.post( `${ appconfig.baseUrl }/user/login`,
             {
                 username,
                 password
             } )
-            .then( ( response ) => response.data )
+            .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( ( err ) => { console.log( err ); return { type: err.message }; } );
 
 
@@ -26,7 +26,9 @@ export const login = createAsyncThunk<{ user: User, confirmed: boolean; success:
                 firstName: response.payload.first_name,
                 lastName: response.payload.last_name,
                 email: response.payload.email,
-                phoneNumber: response.payload.phone_number
+                phoneNumber: response.payload.phone_number,
+                status: response.payload.status,
+                token: response.payload.token
             };
             return { user, confirmed: response.payload.enabled, success: response.type };
         } else return thunkAPI.rejectWithValue( response.type );
@@ -35,7 +37,7 @@ export const login = createAsyncThunk<{ user: User, confirmed: boolean; success:
 
 export const createUser = createAsyncThunk<{ success: UserSuccessTypes; }, { user: User; password: string; confirmPassword: string; }>( 'user/createUser',
     async ( { user, password, confirmPassword }, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.authUrl }/users/create`,
+        const response = await axios.post( `${ appconfig.baseUrl }/user/create`,
             {
                 username: user.username,
                 first_name: user.firstName,
@@ -44,6 +46,7 @@ export const createUser = createAsyncThunk<{ success: UserSuccessTypes; }, { use
                 phone_number: user.phoneNumber,
                 password,
                 confirm_pass: confirmPassword,
+                status: Status.SAFE
             } )
             .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( ( err ) => { console.log( err ); return { type: err.message }; } );
@@ -58,7 +61,7 @@ export const createUser = createAsyncThunk<{ success: UserSuccessTypes; }, { use
 
 export const confirmEmail = createAsyncThunk<{ success: UserSuccessTypes; }, string>( 'user/confirmEmail',
     async ( token, thunkAPI ) => {
-        const response = await axios.get( `${ apiconfig.authUrl }/users/confirmUser?token=${ token }`, {} )
+        const response = await axios.get( `${ appconfig.baseUrl }/user/confirmUser?token=${ token }`, {} )
             .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( err => { console.log( err ); return { type: err.message }; } );
 
@@ -72,7 +75,7 @@ export const confirmEmail = createAsyncThunk<{ success: UserSuccessTypes; }, str
 
 export const forgotPassword = createAsyncThunk<{ success: UserSuccessTypes; }, User>( 'user/forgotPassword',
     async ( user, thunkAPI ) => {
-        const response = await axios.post( `${ apiconfig.authUrl }/users/forgotUser`, { username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, phoneNumber: user.phoneNumber } )
+        const response = await axios.post( `${ appconfig.baseUrl }/user/forgotUser`, { username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, phoneNumber: user.phoneNumber } )
             .then( ( response ) => { console.log( response ); return response.data; } )
             .catch( err => { console.log( err ); return { type: err.message }; } );
 
@@ -84,6 +87,31 @@ export const forgotPassword = createAsyncThunk<{ success: UserSuccessTypes; }, U
     }
 );
 
+export const changeStatus = createAsyncThunk<{ success: UserSuccessTypes; status: Status; }, Status, { state: RootState; }>( 'user/changeStatus',
+    async ( status, thunkAPI ) => {
+        const user = thunkAPI.getState().user.currentUser!;
+        const response = await axios.get( `${ appconfig.baseUrl }/user/changeStatus/${ user.userId }?status=${ status }&token=${ user.token!.access_token }`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${ user.token!.access_token }`
+                }
+            } )
+            .then( ( response ) => { console.log( response ); return response.data; } )
+            .catch( err => { console.log( err ); return { type: err.message }; } );
+
+        if ( response.type === UserSuccessTypes.STATUS_CHANGE )
+            return { success: response.type, status };
+        else return thunkAPI.rejectWithValue( response.type );
+    } );
+
+export const checkAccess = createAsyncThunk<{ success: UserSuccessTypes; user?: User; }>( 'user/checkAccess',
+    async ( _, thunkApi ) => {
+        const user = loadUser();
+        if ( user !== undefined )
+            return { success: UserSuccessTypes.USER_LOGGED_IN, user };
+        else return thunkApi.rejectWithValue( "NO_STATE" );
+    } );
+
 ///////////////////////////////////////////////////////////////////////////
 // STATE
 const initialState: UserState = {
@@ -91,7 +119,6 @@ const initialState: UserState = {
     confirmed: false,
     loading: false,
     currentUser: undefined,
-    token: undefined,
     error: undefined,
     success: undefined,
 };
@@ -104,6 +131,7 @@ export const userSlice = createSlice( {
             state.loggedIn = false;
             state.currentUser = undefined;
             state.error = undefined;
+            removeSavedUser();
         },
         removeError: ( state ) => {
             state.error = undefined;
@@ -112,19 +140,22 @@ export const userSlice = createSlice( {
     extraReducers: builder => {
         builder
             .addCase( login.fulfilled, ( state, action ) => {
-                console.log( action.payload );
                 state.loggedIn = true;
                 state.currentUser = action.payload.user;
                 state.confirmed = action.payload.confirmed;
             } )
             .addCase( createUser.fulfilled, ( state, action ) => {
-                console.log( action.type );
             } )
             .addCase( confirmEmail.fulfilled, ( state, action ) => {
-                console.log( action.type );
             } )
             .addCase( forgotPassword.fulfilled, ( state, action ) => {
-                console.log( action.type );
+            } )
+            .addCase( changeStatus.fulfilled, ( state, action ) => {
+                state.currentUser!.status = action.payload.status;
+            } )
+            .addCase( checkAccess.fulfilled, ( state, action ) => {
+                state.currentUser = action.payload.user!;
+                state.loggedIn = true;
             } )
             .addMatcher( isPendingAction( "user/" ), ( state, action ) => {
                 console.log( action.type );
@@ -135,7 +166,8 @@ export const userSlice = createSlice( {
             .addMatcher( isRejectedAction( "user/" ), ( state, action ) => {
                 console.log( action.type );
                 state.loading = false;
-                state.error = action.payload;
+                if ( action.payload !== "NO_STATE" )
+                    state.error = action.payload;
                 state.success = undefined;
             } )
             .addMatcher( isFulfilledAction( "user/" ), ( state, action ) => {
@@ -143,6 +175,7 @@ export const userSlice = createSlice( {
                 state.loading = false;
                 state.error = undefined;
                 state.success = action.payload.success;
+                saveUser( state.currentUser! );
             } );
     }
 } );

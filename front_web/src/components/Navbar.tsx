@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Text } from 'grommet';
 import { useDispatch, useSelector } from 'react-redux';
-import { loggedIn, logout } from '../state/user';
+import { currentUser, loggedIn, logout } from '../state/user';
 import { PowerShutdown } from 'grommet-icons';
 
 const AppBar = ( props: any ) => (
@@ -21,6 +21,7 @@ const AppBar = ( props: any ) => (
 export default () => {
 
     const connected = useSelector( loggedIn );
+    const user = useSelector( currentUser );
     const dispatch = useDispatch();
 
     return (
@@ -28,13 +29,17 @@ export default () => {
             <Heading level='3' margin='none'>
                 Alerte Covid !
             </Heading>
-            {connected && <Box
-                hoverIndicator={true}
-                background="brand2"
-                round
-                pad="xsmall"
-                onClick={() => dispatch( logout() )}>
-                <PowerShutdown />
-            </Box>}
+            {connected &&
+                <Box direction="row" justify="center" align="center" gap="medium">
+                    <Text>{`Bonjour, ${ user?.firstName }`}</Text>
+                    <Box
+                        hoverIndicator={true}
+                        background="brand2"
+                        round
+                        pad="xsmall"
+                        onClick={() => dispatch( logout() )}>
+                        <PowerShutdown />
+                    </Box>
+                </Box>}
         </AppBar> );
 };

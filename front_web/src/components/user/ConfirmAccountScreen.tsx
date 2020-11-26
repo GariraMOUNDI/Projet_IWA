@@ -11,14 +11,14 @@ export default ( { match }: RouteComponentProps<{ token?: string; }> ) => {
 
     useEffect( () => {
         match.params.token !== undefined && dispatch( confirmEmail( match.params.token ) );
-    }, [ match.params.token, dispatch ] );
+    }, [ match.params.token ] );
 
     return (
-        <Box>
+        <Box animation={{ type: "slideLeft", duration: 300 }}>
             {inProgress ?
                 <Paragraph>Nous confirmons votre compte</Paragraph>
                 :
-                <Box>
+                <Box align="center" justify="center" animation={{ type: "slideLeft", duration: 300 }}>
                     <Heading>Votre compte est confirmé !</Heading>
                     <Link to="/login">
                         <Button primary label="Connexion" hoverIndicator icon={<FormNext />} />

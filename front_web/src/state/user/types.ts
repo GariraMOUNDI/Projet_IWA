@@ -1,11 +1,23 @@
+import { Status } from "../../globals";
+
 export type UserState = {
     loggedIn: boolean;
     loading: boolean;
     confirmed: boolean;
     currentUser?: User;
-    token?: number;
     error?: UserErrorTypes;
     success?: UserSuccessTypes;
+};
+
+export type Token = {
+    access_token: string;
+    expires_in: number;
+    id_token?: number;
+    refresh_expires_in: number;
+    refresh_token: string;
+    scope: string;
+    session_state: string;
+    token_type: string;
 };
 
 export type User = {
@@ -15,6 +27,8 @@ export type User = {
     lastName: string;
     email: string;
     phoneNumber: string;
+    status?: Status;
+    token?: Token;
 };
 
 export enum UserErrorTypes {
@@ -34,5 +48,6 @@ export enum UserSuccessTypes {
     USER_CREATED = 'USER_CREATED',
     USER_LOGGED_IN = 'USER_LOGGED_IN',
     USER_CONFIRMED = 'USER_CONFIRMED',
-    FORGOT_EMAIL = 'FORGOT_EMAIL'
+    FORGOT_EMAIL = 'FORGOT_EMAIL',
+    STATUS_CHANGE = 'STATUS_CHANGE'
 }

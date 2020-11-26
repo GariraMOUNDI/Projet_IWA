@@ -21,10 +21,10 @@ export default () => {
     return (
         <Box animation={{ type: "slideLeft", duration: 300 }}>
             {created === UserSuccessTypes.USER_CREATED ?
-                <Box align="center" justify="center" gap="large">
+                <Box align="center" justify="center" gap="large" animation={{ type: "slideLeft", duration: 300 }}>
                     <Heading>Informations envoyées !</Heading>
                     <Paragraph>Veuillez vérifier votre boite mail pour confirmer votre compte.</Paragraph>
-                    <Link to="/welcome">
+                    <Link to="/">
                         <Button primary label="Retour à l'accueil" hoverIndicator icon={<FormNext />} />
                     </Link>
                 </Box>

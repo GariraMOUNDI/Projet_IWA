@@ -4,17 +4,23 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Colors, Status } from '../globals';
 import { sendLocation } from '../state/location';
-import { currentUser } from '../state/user';
+import { changeStatus, currentUser } from '../state/user';
 
 export default () => {
     const dispatch = useDispatch();
+    const user = useSelector( currentUser );
     const [ longitude, setLongitude ] = useState( 0 );
     const [ latitude, setLatitude ] = useState( 0 );
     const [ timestamp, setTimestamp ] = useState( 0 );
-    const [ status, setStatus ] = useState<Status>( Status.SAFE );
-    const user = useSelector( currentUser );
+    const [ status, setStatus ] = useState<Status>( user?.status! );
+    const [ first, setFirst ] = useState( true );
 
     useEffect( () => getLocation(), [] );
+
+    useEffect( () => {
+        !first && dispatch( changeStatus( status ) );
+        first && setFirst( false );
+    }, [ status ] );
 
     const getLocation = () => {
         if ( navigator.geolocation ) {
@@ -26,8 +32,8 @@ export default () => {
         }
     };
 
-    return <Box>
-        <Box direction="row" gap="large" align="center" justify="between">
+    return <Box animation={{ type: "slideLeft", duration: 300 }}>
+        <Box direction="row" gap="large" align="center" justify="between" >
             <Heading>Votre localisation</Heading>
             <Box
                 hoverIndicator={true}
@@ -52,13 +58,13 @@ export default () => {
             </Box>
             <Button primary label="Enregistrer" icon={<FormNext />} size="large"
                 onClick={() => dispatch( sendLocation( {
-                altitude: 0,
-                date: timestamp,
-                idUser: user!.userId!,
-                latitude,
-                longitude,
-                status
-            } ) )} />
+                    altitude: 0,
+                    date: timestamp,
+                    idUser: user!.userId!,
+                    latitude,
+                    longitude,
+                    status
+                } ) )} />
         </Box>
     </Box >;
 
