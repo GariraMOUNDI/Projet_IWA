@@ -11,10 +11,13 @@ git:
 # safelist
 branches:
   only:
+    - master
     - alert
     - auth
     - location
-    - master
+    - autre
+    - front_web
+    - keycloak
 
 #script: ./gradlew clean install
 notification:
