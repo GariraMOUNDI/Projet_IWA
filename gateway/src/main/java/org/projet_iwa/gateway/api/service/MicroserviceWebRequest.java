@@ -9,37 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class MicroserviceWebRequest {
-
-    @Value("${server.user-url}")
-    private String user_url;
-
-    @Value("${server.location-url}")
-    private String location_url;
-
-    private RestTemplateBuilder baseRequest(String url){
-        return new RestTemplateBuilder()
-                .rootUri(url)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-    }
-
-    private RestTemplate userRequestWithoutAuthentication(){
-        return baseRequest(user_url)
-                .build();
-    }
-
-    private RestTemplate userRequestWithAuthentication(String token){
-        return baseRequest(user_url)
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
-                .build();
-    }
-
-    private RestTemplate locationRequestWithAuthentication(String token){
-        return baseRequest(location_url)
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
-                .build();
-    }
-
+public class MicroserviceWebRequest extends MicroserviceRequestInit {
 
     public Response<?, ?> createUser(String body) {
         HttpHeaders headers = new HttpHeaders();
@@ -48,7 +18,65 @@ public class MicroserviceWebRequest {
                 .exchange("/create",
                         HttpMethod.POST,
                         new HttpEntity<>(body, headers),
-                        new ParameterizedTypeReference<Response<?,?>>() {});
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+    public Response<?, ?> loginUser(String body) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithoutAuthentication()
+                .exchange("/login",
+                        HttpMethod.POST,
+                        new HttpEntity<>(body, headers),
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+    public Response<?, ?> confirmUser(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithoutAuthentication()
+                .exchange("/confirmUser?token="+token,
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+
+    public Response<?, ?> forgotPassword(String body) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithoutAuthentication()
+                .exchange("/forgotUser",
+                        HttpMethod.POST,
+                        new HttpEntity<>(body, headers),
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+
+    public Response<?, ?> changeStatus(Long id, String status, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithAuthentication(token)
+                .exchange("/changeStatus/"+ id +"?status="+ status,
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+
+    public Response<?, ?> getUserEmail(Long id, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Response<?,?>> response = userRequestWithAuthentication(token)
+                .exchange("/email/"+ id,
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 }
