@@ -9,6 +9,8 @@ public class Response<TYPE, PAYLOAD> {
         this.payload = payload;
     }
 
+    public Response(){}
+
     public TYPE getType() {
         return type;
     }
