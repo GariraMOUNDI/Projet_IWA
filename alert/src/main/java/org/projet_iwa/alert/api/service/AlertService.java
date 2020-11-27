@@ -33,7 +33,7 @@ public class AlertService implements IAlertService {
     private JavaMailSender mailSender;
 
     @Autowired
-    private KafkaTemplate<String, AlertDTO> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${spring.kafka.template.default-topic}")
     private String topic;
@@ -42,23 +42,26 @@ public class AlertService implements IAlertService {
     private String user_url;
 
     @KafkaListener(topics = "#{'${spring.kafka.template.default-topic}'}")
-    public void processMessage(@Payload AlertDTO alertDTO,
+    public void processMessage(@Payload String alertDTOString,
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-
-        String email = getEmailFromUserMicroservice(alertDTO.getUser_id(), alertDTO.getUser_token());
-        if(email == null)
-            System.out.println("Parsing error");
-        else
-            sendEmail(email);
+        AlertDTO alertDTO = toAlertDTO(alertDTOString);
+        if(alertDTO != null){
+            String email = getEmailFromUserMicroservice(alertDTO.getUser_id(), alertDTO.getUser_token());
+            if(email == null)
+                System.out.println("Parsing error");
+            else
+                sendEmail(email);
+        }else
+            System.out.println("Error !!!!");
     }
 
 
     // For test only
     @Override
     public AlertResponse sendAlert(AlertDTO alertDTO) {
-        kafkaTemplate.send(topic, alertDTO);
+        kafkaTemplate.send(topic, toJSONString(alertDTO));
         System.out.println("Sent sample message [" + alertDTO.getLocation_id() + "]" );
         return new AlertResponse(AlertResponseType.ALERT_SEND);
     }
@@ -88,6 +91,28 @@ public class AlertService implements IAlertService {
             JsonNode root = mapper.readTree(response.getBody());
             JsonNode email = root.path("payload");
             return email.asText();
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    private ObjectMapper map = new ObjectMapper();
+
+    private String toJSONString(Object obj){
+        try {
+            return map.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    private AlertDTO toAlertDTO(String jsonString) {
+        try {
+            JsonNode root = map.readTree(jsonString);
+            return new AlertDTO(
+                    root.path("location_id").asLong(),
+                    root.path("user_id").asLong(),
+                    root.path("user_token").asText());
         } catch (JsonProcessingException e) {
             return null;
         }
