@@ -2,7 +2,7 @@ server :
   port : ${PORT:5000}
 spring:
   datasource:
-    url: ${DATABSE}
+    url: ${DATABASE_URL}
 #    username: projet_iwa
 #    password: projet_iwa
   jpa:
@@ -11,7 +11,7 @@ spring:
       ddl-auto: none
       show-sql: true
   kafka:
-    bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094, tricycle-02.srvs.cloudkafka.com:9094, tricycle-03.srvs.cloudkafka.com:9094
+    bootstrap-servers: ${kafka_server}
     consumer:
       group-id: ${kafka_group_id}
 #      auto-offset-reset: earliest
