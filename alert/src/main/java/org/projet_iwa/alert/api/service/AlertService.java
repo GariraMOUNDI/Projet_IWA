@@ -8,6 +8,7 @@ import org.projet_iwa.alert.api.model.AlertResponse;
 import org.projet_iwa.alert.api.model.AlertResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,8 +18,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
@@ -78,13 +77,14 @@ public class AlertService implements IAlertService {
     }
 
     private String getEmailFromUserMicroservice(Long user_id, String token){
-        RestTemplate request = new RestTemplate();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.set("Authorization", "Bearer "+ token);
 
-        ResponseEntity<String> response = request.exchange(user_url + user_id, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+        ResponseEntity<String> response = userRequestWithAuthentication(token)
+                .exchange(user_id.toString(),
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers),
+                        String.class);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -94,6 +94,14 @@ public class AlertService implements IAlertService {
         } catch (JsonProcessingException e) {
             return null;
         }
+    }
+
+    protected RestTemplate userRequestWithAuthentication(String token){
+        return new RestTemplateBuilder()
+                .rootUri(user_url)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
+                .build();
     }
 
     private ObjectMapper map = new ObjectMapper();
