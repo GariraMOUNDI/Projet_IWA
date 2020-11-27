@@ -22,6 +22,7 @@ dependencies{
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.hibernate:hibernate-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
     runtimeOnly "org.postgresql:postgresql"
     implementation "org.springframework.kafka:spring-kafka:" + kafka_version
     implementation "org.keycloak:keycloak-spring-boot-starter:" + keycloak_version

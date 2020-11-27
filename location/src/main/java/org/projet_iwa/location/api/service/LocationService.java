@@ -1,5 +1,7 @@
 package org.projet_iwa.location.api.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.projet_iwa.location.api.config.KafkaConsumerConfig;
 import org.projet_iwa.location.api.model.*;
@@ -33,7 +35,7 @@ public class LocationService implements ILocationService{
     private KafkaTemplate<String, ClusterDTO> kafkaClusterTemplate;
 
     @Autowired
-    private KafkaTemplate<String, AlertDTO> kafkaAlertTemplate;
+    private KafkaTemplate<String, String> kafkaAlertTemplate;
 
     @Autowired
     private LocationRepository locationRepository;
@@ -110,11 +112,11 @@ public class LocationService implements ILocationService{
 
     // Alert Producer
 
-    public void sendAlert(AlertDTO alertDTO) {
-
-        this.kafkaAlertTemplate.send(alert_topic, alertDTO);
-
-    }
+//    public void sendAlert(AlertDTO alertDTO) {
+//
+//        this.kafkaAlertTemplate.send(alert_topic, alertDTO);
+//
+//    }
 
     // Simple way to threat location
 
@@ -139,7 +141,7 @@ public class LocationService implements ILocationService{
 //            for(LocationDTO locationDTO1 : KafkaConsumerConfig.poll(bootstrapAddress, UUID.randomUUID().toString(), location_topic))
 //                kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTO(locationDTO1));
 
-            kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTO(locationDTO));
+            kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTOString(locationDTO));
             return new LocationResponse(LocationResponseType.LOCATION_SEND);
 
 
@@ -148,9 +150,18 @@ public class LocationService implements ILocationService{
         return null;
     }
 
-    private AlertDTO locationDTOToAlertDTO(LocationDTO locationDTO){
-        return new AlertDTO(locationDTO.getLocation_id(), locationDTO.getUser_id(), locationDTO.getUser_token());
+    private ObjectMapper map = new ObjectMapper();
+
+    private String locationDTOToAlertDTOString(LocationDTO locationDTO){
+        AlertDTO alert  = new AlertDTO(locationDTO.getLocation_id(), locationDTO.getUser_id(), locationDTO.getUser_token());
+        try {
+            return map.writeValueAsString(alert);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 
 //    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
 //    @KafkaListener(
