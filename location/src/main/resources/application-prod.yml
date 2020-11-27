@@ -2,9 +2,9 @@ server :
   port : ${PORT:5000}
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: projet_iwa
-    password: projet_iwa
+    url: ${DATABSE}
+#    username: projet_iwa
+#    password: projet_iwa
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -13,7 +13,7 @@ spring:
   kafka:
     bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094, tricycle-02.srvs.cloudkafka.com:9094, tricycle-03.srvs.cloudkafka.com:9094
     consumer:
-      group-id: jip6qp3z-consumers
+      group-id: ${kafka_group_id}
 #      auto-offset-reset: earliest
 #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 #      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -27,7 +27,7 @@ spring:
         protocol: SASL_SSL
       sasl:
         mechanism: SCRAM-SHA-256
-        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="jip6qp3z" password="0Va4zYmZNNSD2HTNQy_qL7ajT2_D4MNe";
+        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${kafka_username}" password="${kafka_password}";
     template:
       default-topic: jip6qp3z-default
 
@@ -46,9 +46,9 @@ keycloak:
 
 
 covid-alert :
-  location-topic: jip6qp3z-location
-  cluster-topic: jip6qp3z-cluster
-  alert-topic: jip6qp3z-alert
+  location-topic: ${location_topic}
+  cluster-topic: ${cluster_topic}
+  alert-topic: ${alert_topic}
 
 #logging.level.org.springframework.security=DEBUG
 
