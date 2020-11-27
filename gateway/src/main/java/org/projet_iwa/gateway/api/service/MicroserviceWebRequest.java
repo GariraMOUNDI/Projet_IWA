@@ -83,7 +83,7 @@ public class MicroserviceWebRequest extends MicroserviceRequestInit {
     public Response<?,?> sendLocation(String body, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<Response<?,?>> response = userRequestWithAuthentication(token)
+        ResponseEntity<Response<?,?>> response = locationRequestWithAuthentication(token)
                 .exchange("/",
                         HttpMethod.POST,
                         new HttpEntity<>(body, headers),
