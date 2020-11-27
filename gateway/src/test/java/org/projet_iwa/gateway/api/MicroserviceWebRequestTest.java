@@ -20,6 +20,7 @@ public class MicroserviceWebRequestTest {
         assertThat("?").isEqualTo(response.getType());
         assertThat(response.getPayload()).isEqualTo(response.getType());
     }
+    @Test
     public void sendLocation() {
         Response response = microserviceWebRequest.sendLocation(SampleData.getSampleDTO());
         assertThat("?").isEqualTo(response.getType());
