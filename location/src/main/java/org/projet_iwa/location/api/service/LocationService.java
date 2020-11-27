@@ -1,5 +1,6 @@
 package org.projet_iwa.location.api.service;
 
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.projet_iwa.location.api.config.KafkaConsumerConfig;
 import org.projet_iwa.location.api.model.*;
 import org.projet_iwa.location.api.repository.LocationRepository;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.UUID;
 
 @Service
 public class LocationService implements ILocationService{
@@ -33,10 +35,6 @@ public class LocationService implements ILocationService{
     @Autowired
     private KafkaTemplate<String, AlertDTO> kafkaAlertTemplate;
 
-
-//    @Autowired
-//    private KafkaConsumer<String, LocationDTO> kc;
-
     @Autowired
     private LocationRepository locationRepository;
 
@@ -51,6 +49,12 @@ public class LocationService implements ILocationService{
 
     @Value("${covid-alert.alert-topic}")
     private String alert_topic;
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapAddress;
+
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
 
     LocationService() {
         this.recentLocations = new ArrayList<>();
@@ -114,9 +118,6 @@ public class LocationService implements ILocationService{
 
     // Simple way to threat location
 
-    @Autowired
-    private KafkaListenerEndpointRegistry registry;
-
     @Override
     public Response<?, ?> threatLocation(LocationDTO locationDTO) {
         if(locationDTO.getUser_status() == UserStatus.SAFE ){
@@ -132,28 +133,32 @@ public class LocationService implements ILocationService{
         }
 
         if(locationDTO.getUser_status() == UserStatus.COVID){
-            Location location = locationFactory.createLocationModel(locationDTO);
-            locationRepository.save(location);
-            KafkaConsumerConfig.setCurrentLocation(locationDTO.getLatitude(), locationDTO.getLongitude());
-            registry.getListenerContainer("jip6qp3z-consumers").start();
+//            Location location = locationFactory.createLocationModel(locationDTO);
+//            locationRepository.save(location);
+//            KafkaConsumerConfig.setCurrentLocation(locationDTO.getLatitude(), locationDTO.getLongitude());
+//            for(LocationDTO locationDTO1 : KafkaConsumerConfig.poll(bootstrapAddress, UUID.randomUUID().toString(), location_topic))
+//                kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTO(locationDTO1));
+
+            kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTO(locationDTO));
             return new LocationResponse(LocationResponseType.LOCATION_SEND);
+
+
         }
 
         return null;
     }
 
-    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
-    @KafkaListener(
-            id = "jip6qp3z-consumers",
-            topics = "#{'${covid-alert.location-topic}'}",
-            containerFactory = "filterKafkaListenerContainerFactoryByDate",
-            autoStartup = "false")
-    public void threatMessage(@Payload LocationDTO locationDTO,
-                               @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
-                               @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
-                               @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-        System.out.println(locationDTO.getDate());
-        System.out.println("Consumeeee!!!!");
+    private AlertDTO locationDTOToAlertDTO(LocationDTO locationDTO){
+        return new AlertDTO(locationDTO.getLocation_id(), locationDTO.getUser_id(), locationDTO.getUser_token());
+    }
+
+//    @KafkaListener(topics = "#{'${covid-alert.location-topic}'}")
+//    @KafkaListener(
+//            id = "jip6qp3z-consumers",
+//            topics = "#{'${covid-alert.location-topic}'}",
+//            containerFactory = "filterKafkaListenerContainerFactoryByDate",
+//            autoStartup = "true")
+    public void threatMessage(){
 
     }
 }

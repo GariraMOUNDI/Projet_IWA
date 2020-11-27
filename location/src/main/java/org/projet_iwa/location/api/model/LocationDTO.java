@@ -9,15 +9,17 @@ public class LocationDTO {
     private Long longitude;
     private Long user_id;
     private UserStatus user_status;
+    private String user_token;
     private Timestamp date;
 
-    public LocationDTO(Long location_id, Long latitude, Long longitude, Long user_id, UserStatus user_status, Timestamp date) {
+    public LocationDTO(Long location_id, Long latitude, Long longitude, Long user_id, UserStatus user_status, Timestamp date, String user_token) {
         this.location_id = location_id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.user_id = user_id;
         this.user_status = user_status;
         this.date = date;
+        this.user_token = user_token;
     }
 
     public LocationDTO(){}
@@ -68,5 +70,13 @@ public class LocationDTO {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public String getUser_token() {
+        return user_token;
+    }
+
+    public void setUser_token(String user_token) {
+        this.user_token = user_token;
     }
 }
