@@ -45,15 +45,17 @@ public class AlertService implements IAlertService {
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws IOException, MessagingException {
-        AlertDTO alertDTO = toAlertDTO(alertDTOString);
-        if(alertDTO != null){
-            String email = getEmailFromUserMicroservice(alertDTO.getUser_id(), alertDTO.getUser_token());
-            if(email == null)
-                System.out.println("Parsing error");
-            else
-                sendEmail(email);
-        }else
-            System.out.println("Error !!!!");
+//        AlertDTO alertDTO = toAlertDTO(alertDTOString);
+//        if(alertDTO != null){
+//            String email = getEmailFromUserMicroservice(alertDTO.getUser_id(), alertDTO.getUser_token());
+//            if(email == null)
+//                System.out.println("Parsing error");
+//            else
+//                sendEmail(email);
+//        }else
+//            System.out.println("Error !!!!");
+        System.out.println(alertDTOString);
+        sendEmail(alertDTOString);
     }
 
 
