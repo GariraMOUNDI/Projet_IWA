@@ -144,7 +144,7 @@ public class DetectionThread implements Runnable {
 
         // Producing event for each cluster and sending them to Kafka
         for (ClusterDTO cluster : clusters) {
-            locationService.sendCluster(cluster);
+//            locationService.sendCluster(cluster);
         }
 
     }

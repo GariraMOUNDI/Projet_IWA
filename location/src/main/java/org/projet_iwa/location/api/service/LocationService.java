@@ -58,16 +58,16 @@ public class LocationService implements ILocationService{
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
-    LocationService() {
-        this.recentLocations = new ArrayList<>();
-
-        Timer timer = new Timer("DetectionRunnerThreadTimer");
-        DetectionRunnerThread task = new DetectionRunnerThread(this.recentLocations,120000);
-        timer.schedule(task, 60000);
-    }
-
-    // Location Producer
-
+//    LocationService() {
+//        this.recentLocations = new ArrayList<>();
+//
+//        Timer timer = new Timer("DetectionRunnerThreadTimer");
+//        DetectionRunnerThread task = new DetectionRunnerThread(this.recentLocations,120000);
+//        timer.schedule(task, 60000);
+//    }
+//
+//    // Location Producer
+//
     @Override
     public LocationResponse sendLocation(LocationDTO locationDTO) {
 
@@ -93,11 +93,11 @@ public class LocationService implements ILocationService{
 
     // Cluster Producer
 
-    public void sendCluster(ClusterDTO clusterDTO) {
-
-        this.kafkaClusterTemplate.send(cluster_topic, clusterDTO);
-
-    }
+//    public void sendCluster(ClusterDTO clusterDTO) {
+//
+//        this.kafkaClusterTemplate.send(cluster_topic, clusterDTO);
+//
+//    }
 
     // Cluster Consumer
 
@@ -143,8 +143,6 @@ public class LocationService implements ILocationService{
 
             kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTOString(locationDTO));
             return new LocationResponse(LocationResponseType.LOCATION_SEND);
-
-
         }
 
         return null;
