@@ -81,7 +81,7 @@ public class AlertService implements IAlertService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         ResponseEntity<String> response = userRequestWithAuthentication(token)
-                .exchange(user_id.toString(),
+                .exchange("/" + user_id,
                         HttpMethod.GET,
                         new HttpEntity<>(headers),
                         String.class);
