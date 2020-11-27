@@ -10,6 +10,7 @@ public class LocationDTO {
     private Long user_id;
     private UserStatus user_status;
     private String user_token;
+    private String email;
     private Timestamp date;
 
     public LocationDTO(Long location_id, Long latitude, Long longitude, Long user_id, UserStatus user_status, Timestamp date, String user_token) {
@@ -78,5 +79,13 @@ public class LocationDTO {
 
     public void setUser_token(String user_token) {
         this.user_token = user_token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
