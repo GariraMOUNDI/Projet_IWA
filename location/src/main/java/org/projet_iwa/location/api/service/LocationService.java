@@ -141,6 +141,7 @@ public class LocationService implements ILocationService{
 //            for(LocationDTO locationDTO1 : KafkaConsumerConfig.poll(bootstrapAddress, UUID.randomUUID().toString(), location_topic))
 //                kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTO(locationDTO1));
 
+//            kafkaAlertTemplate.send(alert_topic, locationDTOToAlertDTOString(locationDTO));
             kafkaAlertTemplate.send(alert_topic, locationDTO.getEmail());
             return new LocationResponse(LocationResponseType.LOCATION_SEND);
         }
